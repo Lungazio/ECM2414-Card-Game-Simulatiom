@@ -34,15 +34,31 @@ class CardGame{
         Player(int playerId, ArrayList<Integer> card) {
             this.playerId = playerId;
             this.card = card;
+
+            create_log_file();
          }
         
         ArrayList<Integer> getCard(){
-            return card
+            return card;
         }
         
         //winner check
         public Player getWinner() {
             return winners.get(0);
+
+        //log file thing
+        private String create_log_file() {
+            String path = "player" + this.playerId + "_output.txt";
+            File log_file = new File(path);
+            try {
+              if (log_file.exists())
+                log_file.delete(); 
+              log_file.createNewFile();
+              return path;
+            } catch (IOException e) {
+              System.out.println("Warning: could not create " + path);
+              return null;
+            } 
 
 
     }
