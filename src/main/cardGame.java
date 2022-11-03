@@ -3,7 +3,6 @@ package main;
 import java.util.Scanner;
 /**
  * cardGame class:
- * Main class for the game
  *
  *
  * Includes get/set methods
@@ -18,17 +17,16 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-    
-class CardGame{
+
+class CardGame {
+
     private Player[] players;
     private ArrayList<Player> winners;
     private volatile boolean winner;
-       
-    
-    CardGame(int numOfPlayers, String inputPack) throws Exception{
+
+
+    CardGame(int numOfPlayers, String inputPack) throws Exception {
         if (numOfPlayers < 1) throw new IllegalArgumentException("There should be more than 1 player");
-
-
 
 
         //create player
@@ -37,9 +35,8 @@ class CardGame{
             players[i] = new Player(i, new ArrayList<>());
 
 
-    
+        }
     }
-}
 
     //player, plays as thread
     class Player implements Runnable {
@@ -50,31 +47,32 @@ class CardGame{
             this.card = card;
 
             create_log_file();
-         }
-        
-        ArrayList<Integer> getCard(){
+        }
+
+        ArrayList<Integer> getCard() {
             return card;
         }
-        
+
         //winner check
         public Player getWinner() {
             return winners.get(0);
 
-        //log file thing
-        private String create_log_file() {
-            String path = "player" + this.playerId + "_output.txt";
-            File log_file = new File(path);
-            try {
-              if (log_file.exists())
-                log_file.delete(); 
-              log_file.createNewFile();
-              return path;
-            } catch (IOException e) {
-              System.out.println("Warning: could not create " + path);
-              return null;
-            } 
+            //log file thing
+            private String create_log_file () {
+                String path = "player" + this.playerId + "_output.txt";
+                File log_file = new File(path);
+                try {
+                    if (log_file.exists())
+                        log_file.delete();
+                    log_file.createNewFile();
+                    return path;
+                } catch (IOException e) {
+                    System.out.println("Warning: could not create " + path);
+                    return null;
+                }
 
-
+            }
+        }
     }
 }
 

@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 
 public class Card {
-    private ArrayList<Integer> inputPack = new ArrayList<>();
+    private final ArrayList<Integer> inputPack = new ArrayList<>();
 
     public ArrayList<Integer> getInputPack(int players) throws FileNotFoundException {
         Scanner reader = new Scanner(System.in);
