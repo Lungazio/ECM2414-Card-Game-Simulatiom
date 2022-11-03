@@ -44,21 +44,29 @@ class CardGame{
         
         //winner check
         public Player getWinner() {
-            return winners.get(0);
-
-        //log file thing
+            return winners.get(index:0);
+        }
+        //log file baffoonery
         private String create_log_file() {
-            String path = "player" + this.playerId + "_output.txt";
-            File log_file = new File(path);
+            String output = "player" + this.playerId + "_output.txt";
+            File log_file = new File(output);
             try {
               if (log_file.exists())
                 log_file.delete(); 
               log_file.createNewFile();
-              return path;
+              return output;
             } catch (IOException e) {
-              System.out.println("Warning: could not create " + path);
-              return null;
+              System.out.println("Couldnt create file " + output);
+              return null;}
+              
             } 
+
+
+            private void rotations() {
+                synchronized (Player.class) {
+                    if (winner) {
+                        return;
+                    }
 
 
     }
