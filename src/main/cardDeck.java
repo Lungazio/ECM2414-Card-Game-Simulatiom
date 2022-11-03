@@ -23,15 +23,15 @@
 public class cardDeck {
     private int playerId;
     private int deckId;
-    public Int[3] deck;
+    public int[] deck;
 
-    public void dispose(deckId) {
+    public void dispose(int deckId) {
         // dispose to the bottom of
         // deckId + 1 or if last player,
         // dispose to id of first player
     }
 
-    public int[] getCardDeck (deckId) {
+    public int[] getCardDeck (int deckId) {
         return this.deck;
     }
 
