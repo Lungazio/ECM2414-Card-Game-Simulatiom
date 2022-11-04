@@ -40,7 +40,7 @@ class CardGame {
 
 
 
-
+    //start player thread
     void run() {
         System.out.println("Begin game:");
 
@@ -55,16 +55,20 @@ class CardGame {
         for (Thread thread : threads) {
             try {
                 thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException exc) {
+                exc.printStackTrace();
             }
         }
-        System.out.println("Winner: " + getWinner());
+        // announce winner
+        System.out.println("Winner: " + winnerCheck());
         System.out.println("Game over.");
     }
 
+
+
     //player, plays as thread
     class Player implements Runnable {
+        
         private final int playerId;
         private ArrayList<Integer> card;
 
@@ -75,7 +79,7 @@ class CardGame {
             create_log_file();
         
         }
-        //log file baffoonery
+        //log file for n players
         private String create_log_file() {
             String output = "Player" + playerId + "_output.txt";
             File log_file = new File(output);
@@ -94,25 +98,46 @@ class CardGame {
         ArrayList<Integer> getCard() {
             return card;
         }
-    }
+    
 
 
-    //winner check
-    public Player getWinner() {
-
-        return winners.get(0);
-        }
-      
-              
-         
-
-    //go around the table
-    private void rotations() {
-        synchronized (Player.class) {
-            if (winner) {
+    
+        //go around the table
+        private void rotations() {
+            synchronized (Player.class) {
+                if (winner) {
                 return;
+                }
             }
         }
+
+
+        //track moves and hands of players
+        private void log(String text) {
+            System.out.println(text);
+
+            Writer output = null;
+            try {
+                output = new BufferedWriter(new FileWriter("Player" + playerId + "_output.txt", true));
+                output.append(text).append("\n");
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
+        //winner check
+        public Player winnerCheck() {
+
+            return winners.get(0);
+            }
+
+
+
+
 
 }
+
+
