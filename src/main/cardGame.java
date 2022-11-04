@@ -17,14 +17,14 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+//still needs the rest of the classes
 class CardGame {
 
     private Player[] players;
     private ArrayList<Player> winners;
     private volatile boolean winner;
 
-
+    
     CardGame(int numOfPlayers, String inputPack) throws Exception {
         if (numOfPlayers < 1) throw new IllegalArgumentException("There should be more than 1 player");
 
@@ -66,7 +66,7 @@ class CardGame {
 
 
 
-    //player, plays as thread
+    //player, plays as thread [WIP need to work on player behaviour]
     class Player implements Runnable {
         
         private final int playerId;
@@ -102,7 +102,7 @@ class CardGame {
 
 
     
-        //go around the table
+        //go around the table [WIP]
         private void rotations() {
             synchronized (Player.class) {
                 if (winner) {
@@ -128,7 +128,7 @@ class CardGame {
 
 
     }
-        //winner check
+        //winner check 
         public Player winnerCheck() {
 
             return winners.get(0);
