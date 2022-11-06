@@ -26,7 +26,7 @@ class CardGame {
 
     
     CardGame(int numOfPlayers, String inputPack) throws Exception {
-        if (numOfPlayers < 1) throw new IllegalArgumentException("There should be more than 1 player");
+        if (numOfPlayers < 2) throw new IllegalArgumentException("There should be at least 2 Players.");
 
 
         //create player
@@ -51,7 +51,7 @@ class CardGame {
             threads.add(t);
         }
 
-        // wait for all threads to finish
+        // wait for thread
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -81,15 +81,15 @@ class CardGame {
         }
         //log file for n players
         private String create_log_file() {
-            String output = "Player" + playerId + "_output.txt";
-            File log_file = new File(output);
+            String filename = "Player" + playerId + "-output.txt";
+            File log_file = new File(filename);
             try {
               if (log_file.exists())
                 log_file.delete(); 
               log_file.createNewFile();
-              return output;
+              return filename;
             } catch (IOException e) {
-              System.out.println("Couldnt create file: " + output);
+              System.out.println("Couldnt create file: " + filename);
               return null;}
               
             }
@@ -113,7 +113,7 @@ class CardGame {
 
 
         //track moves and hands of players
-        private void log(String text) {
+        private void writeLog(String text) {
             System.out.println(text);
 
             Writer output = null;
@@ -121,8 +121,8 @@ class CardGame {
                 output = new BufferedWriter(new FileWriter("Player" + playerId + "_output.txt", true));
                 output.append(text).append("\n");
                 output.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException err) {
+                err.printStackTrace();
             }
         }
 
