@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /**
  * cardDeck class:
  * Holds all data related to card decks,
@@ -23,7 +24,7 @@
 public class cardDeck {
     private int playerId;
     private int deckId;
-    public int[] deck;
+    public ArrayList<Integer> deck = new ArrayList<Integer>();
 
     public void dispose(int deckId) {
         // dispose to the bottom of
@@ -31,7 +32,22 @@ public class cardDeck {
         // dispose to id of first player
     }
 
-    public int[] getCardDeck (int deckId) {
+    public void createDeck(int deckId) {
+
+    }
+
+    public void initializeDecks (int numPlayers){
+        deck[] = new Deck[numPlayers]
+        for (int i = 0; i < numPlayers; i++){
+            deck
+        }
+    }
+
+    public void addToDeck (int deckId, int cardValue){
+        //
+    }
+
+    public ArrayList<Integer> getCardDeck (int deckId) {
         return this.deck;
     }
 
