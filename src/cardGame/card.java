@@ -69,10 +69,33 @@ public class card {
     // shuffle
 
     // distributes cards to n players
-    public void distributeCards (int n) {
+    public ArrayList<player> distributePlayers (int players, ArrayList<player>player, ArrayList<cardDeck>decks) {
+        final int playerNum;
+        players = playerNum;
         // distribute cards to players
+        int counter = 0;  
+        for(int i = 0;i<8*players;i++){
+            int cardValue = inputPack.get(i);
 
+            if (counter > players){
+                counter = 0;
+                continue;}
+            
+            if(i>=4*players){
+                deckId(counter).deck.add(cardValue);
+                
+            }
+
+            else{
+            playerId(counter).hand.add(cardValue);
+            
+            }
+            counter++;
+        }
         // distribute cards to decks
     }
+
+
+
 
 }
