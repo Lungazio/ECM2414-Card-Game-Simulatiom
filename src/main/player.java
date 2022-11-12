@@ -2,6 +2,7 @@ package main;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class player {
 
@@ -44,23 +45,24 @@ public class player {
             return hand;
         }
         
-
-        private int discardedCard(){
+        // implement atomic action atomic array?
+        private int discardAndDraw(){
         Iterator itr = hand.iterator();
-
-		// Holds true till there is single element
-		// remaining in the object
 		while (itr.hasNext()) {
 
-			// Remove elements smaller than 10 using
+			// Remove first element in array that isnt the players preferred number
 			// Iterator.remove()
 			int x = (Integer)itr.next();
-			if (x == 2){
+			if (x == playerId){
 				continue;}
                 else {itr.remove();
                 int elem = x;
-                System.out.print(elem);
+                //System.out.print(elem);
+
+                //add a card from deck 
+                hand.add()//need a func from deck that removes cards to be called
                 break;}
+
         }
 		}
             
