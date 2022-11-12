@@ -45,7 +45,8 @@ public class player {
         }
         
 
-        Iterator itr = al.iterator();
+        private int discardedCard(){
+        Iterator itr = hand.iterator();
 
 		// Holds true till there is single element
 		// remaining in the object
@@ -60,6 +61,7 @@ public class player {
                 int elem = x;
                 System.out.print(elem);
                 break;}
+        }
 		}
             
         
@@ -100,3 +102,4 @@ public class player {
     
 }
 }
+
