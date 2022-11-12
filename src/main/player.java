@@ -45,22 +45,24 @@ public class player {
         }
         
 
-        //player n prefers card n
-        private boolean handPref() {
-            if (hand.contains(playerId))
-                return true;
-        
-        }
+        Iterator itr = al.iterator();
 
-        private int dicardedCard(){
-            int len = hand.size();
-            for (int i = 0; i < len; i++);
-                int elem = hand.get(i);
+		// Holds true till there is single element
+		// remaining in the object
+		while (itr.hasNext()) {
+
+			// Remove elements smaller than 10 using
+			// Iterator.remove()
+			int x = (Integer)itr.next();
+			if (x == 2){
+				continue;}
+                else {itr.remove();
+                int elem = x;
+                System.out.print(elem);
+                break;}
+		}
             
-
-        }
-            return 0;
-        }
+        
         
 
     
@@ -89,11 +91,12 @@ public class player {
         }
 
 
-    }
+    
         //winner check 
         public Player winnerCheck() {
 
             return winners.get(0);
             }
     
+}
 }
