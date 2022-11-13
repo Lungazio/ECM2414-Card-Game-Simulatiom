@@ -6,6 +6,8 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.sound.sampled.ReverbType;
+
 /**
  * Card class:
  * Holds inputpack data, and is
@@ -35,14 +37,14 @@ public class card {
             File pathFile = new File(url.getPath());
 
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))){
+            try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
                 String line;
-                while((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     inputPack.add(Integer.parseInt(line));
                 }
 
                 reader.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e);
             }
 
@@ -64,30 +66,14 @@ public class card {
             if (inputPack.size() == 8 * players) {
                 // set valid = True to break loop
                 valid = true;
-            }
-            else {
+            } else {
                 System.out.println("Invalid: File must contain " +
-                        (8 * players) + " lines, "+ inputPack.size() + " found instead! ");
+                        (8 * players) + " lines, " + inputPack.size() + " found instead! ");
                 inputPack.clear();
             }
         }
 
         return inputPack;
     }
-
-    // distributes cards to n players
-    public void distributeCards (int players) {
-        // distribute cards to players
-        final int playerNum;
-        players = players;
-
-
-        // distribute cards to decks
-    }
-
-    public static void main (String[] args) throws IOException {
-        card card1 = new card();
-        System.out.println(card1.getInputPack(2));
-
-    }
 }
+    // distributes cards to n players
