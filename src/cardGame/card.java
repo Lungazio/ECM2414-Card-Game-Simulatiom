@@ -66,7 +66,6 @@ public class card {
         return inputPack;
     }
 
-    // shuffle
 
     // distributes cards to n players
     public void distributeCards (int n) {
