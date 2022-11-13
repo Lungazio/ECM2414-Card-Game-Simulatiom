@@ -75,6 +75,10 @@ public class cardDeck implements Runnable{
         }
     }
 
+    public void addToDeck (int value){
+        deck.add(value);
+    }
+
     /**
      * When an object implementing interface {@code Runnable} is used
      * to create a thread, starting the thread causes the object's
