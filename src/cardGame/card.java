@@ -1,6 +1,8 @@
 package cardGame;
 
 import java.io.*;
+import java.net.URL;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,84 +19,75 @@ import java.util.Scanner;
  */
 
 public class card {
-    // arraylist to store input pack numbers
     private final ArrayList<Integer> inputPack = new ArrayList<>();
 
 
     public ArrayList<Integer> getInputPack(int players) throws IOException {
-        ArrayList<Integer> inputPack = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
+
 
         boolean valid = false;
         while (valid == false) {
             System.out.print("Enter input pack location: ");
 
             String file = scanner.nextLine();
-            String absolutePath = (new File(file)).getAbsolutePath();
-            System.out.println(absolutePath);
+            URL url = getClass().getResource(file);
+            File pathFile = new File(url.getPath());
 
 
-            //if (url != null){
-            //File pathFile = new File(url.getPath());
-            try (BufferedReader reader = new BufferedReader(new FileReader(absolutePath))) {
-                System.out.println("Reading file...");
+            try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))){
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while((line = reader.readLine()) != null){
                     inputPack.add(Integer.parseInt(line));
                 }
 
-                if (inputPack.size() == 8 * players) {
-                    System.out.println(inputPack.size());
-                    // set valid = True to break loop
-                    valid = true;
-                } else {
-                    System.out.println("Invalid: File must contain " +
-                            (8 * players) + " lines, " + inputPack.size() + " found instead! ");
-                    inputPack.clear();
-                }
-            } catch (Exception e) {
+                reader.close();
+            }catch (Exception e){
                 System.out.println(e);
             }
 
-            //}else{
-            //System.out.println("File location invalid!");
-            //}
 
+//            // file exists, read file and break while loop
+//            // initialize scanner
+//            Scanner scanner = new Scanner(new File(String.valueOf(file_path)));
+//
+//            /** CHECK IF INPUT PACK LINES = 8N **/
+//            long lines = Files.lines(file_path).count();
+//            System.out.println(lines);
+//
+//            // read file into ArrayList inputPack
+//            while (scanner.hasNextInt()) {
+//                int line = scanner.nextInt();
+//                inputPack.add(line);
+//            }
 
+            if (inputPack.size() == 8 * players) {
+                // set valid = True to break loop
+                valid = true;
+            }
+            else {
+                System.out.println("Invalid: File must contain " +
+                        (8 * players) + " lines, "+ inputPack.size() + " found instead! ");
+                inputPack.clear();
+            }
         }
 
         return inputPack;
     }
 
-
     // distributes cards to n players
-    public ArrayList<player> distributePlayers (int players, ArrayList<player>player, ArrayList<cardDeck>decks) {
-        final int playerNum;
-        players = playerNum;
+    public void distributeCards (int players) {
         // distribute cards to players
-        int counter = 0;  
-        for(int i = 0;i<8*players;i++){
-            int cardValue = inputPack.get(i);
+        final int playerNum;
+        players = players;
 
-            if (counter > players){
-                counter = 0;
-                continue;}
-            
-            if(i>=4*players){
-                deckId(counter).deck.add(cardValue);
-                
-            }
 
-            else{
-            playerId(counter).hand.add(cardValue);
-            
-            }
-            counter++;
-        }
         // distribute cards to decks
     }
 
+    public static void main (String[] args) throws IOException {
+        card card1 = new card();
+        System.out.println(card1.getInputPack(2));
 
-
-
+    }
 }

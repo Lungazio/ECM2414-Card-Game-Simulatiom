@@ -56,7 +56,29 @@ public class cardPortal extends Thread implements Runnable{
     }
 
     public void playerActions(){
-        
+        boolean win = false;
+        int playerId = 0;
+        while (!win){
+            if (playerId == numOfPlayers-1){
+                playerId = 0;
+            }
+
+            int drawValue = decks.get(playerId).drawFromDeck();
+            int discardValue = players.get(playerId).drawAndDiscard(drawValue);
+
+            int discardDeckId = 0;
+            if (playerId == numOfPlayers-1){
+                discardDeckId = 0;
+            }else{
+                discardDeckId = playerId+1;
+            }
+            decks.get(discardDeckId).discardToDeck(playerId);
+
+            // check for win condition here
+
+
+            playerId++;
+        }
     }
 
     public void testThreads(){
