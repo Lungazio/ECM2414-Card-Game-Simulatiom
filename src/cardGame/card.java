@@ -70,7 +70,7 @@ public class card {
 
     // distributes cards to n players
     public ArrayList<player> distributePlayers (int players, ArrayList<player>player) {
-        // distribute cards to players
+
         int counter = 0;  
         for(int i = 0;i<=4*players;i++){
             int cardValue = inputPack.get(i);
@@ -88,7 +88,7 @@ public class card {
         return player;
 }
 
-
+    // used to distribute last half of the input pack into respective player decks 
     public ArrayList<cardDeck> distributeDecks (int players, ArrayList<cardDeck>decks){
         int counter = 0;
         int nextHalf = 4*players + 1;
