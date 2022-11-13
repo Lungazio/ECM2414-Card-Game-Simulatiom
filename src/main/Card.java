@@ -74,12 +74,30 @@ public class Card {
     }
 
     // distributes cards to n players
-    public void distributeCards (int players) {
+    public void distributeCards (int players,) {
         // distribute cards to players
         final int playerNum;
         players = playerNum;
 
-        for
+        int counter = 0;  
+        for(int i = 0;i<8*players;i++){
+            int cardValue = inputPack.get(i);
+
+            if (counter > players){
+                counter = 0;
+                continue;}
+            
+            if(i>=4*players){
+                deckId(counter).deck.add(cardValue);
+                
+            }
+
+            else{
+            playerId(counter).hand.add(cardValue);
+            
+            }
+            counter++;
+        }
             
 
         }

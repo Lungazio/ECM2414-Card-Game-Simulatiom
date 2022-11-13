@@ -87,7 +87,7 @@ public class card {
     }
         return player;
 }
-}
+
 
     public ArrayList<cardDeck> distributeDecks (int players, ArrayList<cardDeck>decks){
         int counter = 0;
@@ -105,4 +105,5 @@ public class card {
             }
         }
     }
+    
 
