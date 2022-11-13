@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.sound.sampled.ReverbType;
+
 /**
  * Card class:
  * Holds inputpack data, and is
@@ -69,9 +71,7 @@ public class card {
     // shuffle
 
     // distributes cards to n players
-    public ArrayList<player> distributePlayers (int players, ArrayList<player>player, ArrayList<cardDeck>decks) {
-        final int playerNum;
-        players = playerNum;
+    public ArrayList<player> distributePlayers (int players, ArrayList<player>player) {
         // distribute cards to players
         int counter = 0;  
         for(int i = 0;i<8*players;i++){
@@ -80,22 +80,16 @@ public class card {
             if (counter > players){
                 counter = 0;
                 continue;}
-            
-            if(i>=4*players){
-                deckId(counter).deck.add(cardValue);
-                
-            }
+
 
             else{
-            playerId(counter).hand.add(cardValue);
-            
-            }
-            counter++;
+            player.get(counter).addToHand(cardValue);
+
         }
+        return player;
         // distribute cards to decks
     }
-
-
-
-
 }
+}
+
+    
