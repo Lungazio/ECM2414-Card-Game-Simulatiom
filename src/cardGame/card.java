@@ -111,7 +111,8 @@ public class card {
                 decks.get(counter).addToDeck(cardValue);
             }
 
+            }
+            return decks;
         }
-        return decks;
     }
-    }
+    
