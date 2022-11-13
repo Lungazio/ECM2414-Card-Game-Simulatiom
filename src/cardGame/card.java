@@ -68,7 +68,6 @@ public class card {
         return inputPack;
     }
 
-    // shuffle
 
     // distributes cards to n players
     public ArrayList<player> distributePlayers (int players, ArrayList<player>player) {

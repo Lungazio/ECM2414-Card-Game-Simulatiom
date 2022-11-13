@@ -4,21 +4,24 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class player implements Runnable {
 
-    private player[] players;
+public class player implements Runnable {
+    public static ArrayList<player> playerTemp = cardPortal.players;
     private ArrayList<player> winners;
+    public static String playerName;
     private volatile boolean winner;
     //player, plays as thread [WIP need to work on player behaviour]
     private final int playerId;
     private ArrayList<Integer> hand;
 
-    public player(int playerId, ArrayList<Integer> hand) {
+    public player(int playerId,  String playerName, ArrayList<Integer> hand) {
         this.playerId = playerId;
+        this.playerName = playerName;
         this.hand= new ArrayList<>(4);
 
         create_log_file();
     }
+
 
     //log file for n players
     private String create_log_file() {
@@ -40,29 +43,50 @@ public class player implements Runnable {
         return hand;
     }
 
-    // implement atomic action atomic array?
-    private int discardAndDraw(){
-        Iterator itr = hand.iterator();
-        while (itr.hasNext()) {
+    public void setHand(ArrayList<Integer> setHand){
+        hand = setHand;
+    }
 
-            // Remove first element in array that isnt the players preferred number
+    public void addToHand (int value){
+        hand.add(value);
+    }
+
+
+    // implement atomic action atomic array?
+    /**
+     * Draws from the deck to their left
+     * Chooses a non preferred card to discard
+     *
+     * Returns discarded card value
+     */
+    public int drawAndDiscard(int drawValue) {
+        // add drawValue to current hand
+        hand.add(drawValue);
+
+        // iterate to remove card
+        Iterator itr = hand.iterator();
+        int x = 0;
+        while (itr.hasNext()) {
+            // Remove first element in array that isn't the players preferred number
             // Iterator.remove()
-            int x = (Integer)itr.next();
-            if (x == playerId){
-                continue;}
-                else {itr.remove();
-                int elem = x;
+            x = (Integer) itr.next();
+            if (x == playerId) {
+                continue;
+            } else {
+                itr.remove();
+                // x is the card to be discarded
+
                 //System.out.print(elem);
 
                 //add a card from deck
                 /**
                  * 0 AS PLACEHOLDER
                  */
-                hand.add(0);//need a func from deck that removes cards to be called
-                break;}
+                break;
+            }
 
         }
-        return 0;
+        return x;
     }
 
 
@@ -113,7 +137,7 @@ public class player implements Runnable {
      */
     @Override
     public void run() {
-
+        //drawAndDiscard();
     }
 }
 
