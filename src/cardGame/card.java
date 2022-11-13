@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.sound.sampled.ReverbType;
 
 /**
  * Card class:
@@ -73,7 +72,7 @@ public class card {
     public ArrayList<player> distributePlayers (int players, ArrayList<player>player) {
         // distribute cards to players
         int counter = 0;  
-        for(int i = 0;i<8*players;i++){
+        for(int i = 0;i<=4*players;i++){
             int cardValue = inputPack.get(i);
 
             if (counter > players){
@@ -85,10 +84,25 @@ public class card {
             player.get(counter).addToHand(cardValue);
 
         }
-        return player;
-        // distribute cards to decks
     }
+        return player;
 }
 }
 
-    
+    public ArrayList<cardDeck> distributeDecks (int players, ArrayList<cardDeck>decks){
+        int counter = 0;
+        int nextHalf = 4*players + 1;
+        for (int i = nextHalf; i<=8*players; i++){
+            int cardValue = inputPack.get(i);
+
+            if(counter > players){
+                counter = 0;
+                continue;}
+
+            else{
+                decks.get(counter).addToDeck(cardValue);
+            }
+            }
+        }
+    }
+
