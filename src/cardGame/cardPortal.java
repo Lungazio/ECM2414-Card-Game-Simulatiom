@@ -26,20 +26,26 @@ public class cardPortal extends Thread implements Runnable {
         else {
             numOfPlayers = numPlayers;
             //create player and decks
-            cardDeck deckTemp = new cardDeck(0);
-            decks.add(deckTemp);
+
+            for (int i = 0; i < numOfPlayers; i++){
+                cardDeck deckTemp = new cardDeck(i);
+                decks.add(deckTemp);
+
+            }
+            int discardDeckId;
             for (int i = 0; i < numOfPlayers; i++) {
                 String playerName = "player";
                 playerName += String.valueOf(i);
 
-                // create decks
-                if (i != numOfPlayers-1) {
-                    cardDeck deckTemp2 = new cardDeck(i + 1);
-                    decks.add(deckTemp2);
-                }
 
                 // create player object
-                player temp = new player(i, playerName, decks.get(i), decks.get(i+1));
+                if (i == numOfPlayers-1){
+                    discardDeckId = 0;
+                }
+                else{
+                   discardDeckId = i+1;
+                }
+                player temp = new player(i, playerName, decks.get(i), decks.get(discardDeckId));
                 players.add(temp);
 
                 // create thread for player, set name to playerid
@@ -172,15 +178,15 @@ public class cardPortal extends Thread implements Runnable {
     public ArrayList<cardDeck> distributeDecks() {
         int counter = 0;
         int nextHalf = 4 * numOfPlayers + 1;
-        for (int i = nextHalf; i <= 8 * numOfPlayers; i++) {
+        for (int i = nextHalf; i < 8 * numOfPlayers; i++) {
             int cardValue = inputPack.get(i).getValue();
 
-            if (counter > numOfPlayers) {
+            if (counter == numOfPlayers) {
                 counter = 0;
-                continue;
-            } else {
-                decks.get(counter).addToDeck(cardValue);
             }
+            decks.get(counter).addToDeck(cardValue);
+
+            counter++;
         }
         return decks;
     }
@@ -188,15 +194,16 @@ public class cardPortal extends Thread implements Runnable {
     public ArrayList<player> distributePlayers() {
 
         int counter = 0;
-        for (int i = 0; i <= 4 * numOfPlayers; i++) {
+        for (int i = 0; i < 4 * numOfPlayers; i++) {
             card tempCard = inputPack.get(i);
 
-            if (counter > numOfPlayers) {
+            if (counter == numOfPlayers) {
                 counter = 0;
-                continue;
-            } else {
-                players.get(counter).addToHand(tempCard);
             }
+
+            players.get(counter).addToHand(tempCard);
+
+            counter++;
         }
         return players;
     }
@@ -221,13 +228,24 @@ public class cardPortal extends Thread implements Runnable {
 
         // initalize game
         cardTestRun.getPlayersInputPack();
-        cardTestRun.distributePlayers();
-        cardTestRun.distributeDecks();
+        ArrayList<player> players = cardTestRun.distributePlayers();
+        ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
+        for (int i = 0; i < 4; i++){
+            System.out.println((players.get(0).getHand().get(i).getValue()));
+        }
+        //for (int i = 0; i < 4; i++){
+            System.out.println((players.get(1).getHand().size()));
+        //}
+//        for (int i = 0; i < 4; i++){
+//            System.out.println(deck.get(0).getCardDeck().get(i).getValue());
+//        }
+//        for (int i = 0; i < 4; i++){
+//            System.out.println((deck.get(1).getCardDeck().get(i).getValue()));
+//        }
 
         // win checks before starting the game
-        cardTestRun.winnerCheck();
+        //cardTestRun.winnerCheck();
 
-        // start game
 
     }
 }
