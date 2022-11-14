@@ -26,7 +26,7 @@ import java.util.Scanner;
  * @version 1.0
  *
  */
-public class cardDeck implements Runnable{
+public class cardDeck {
     private int playerId;
     private int deckId;
     public ArrayList<Integer> deck = new ArrayList<Integer>();
@@ -75,24 +75,7 @@ public class cardDeck implements Runnable{
         }
     }
 
-    public void addToDeck (int value){
-        deck.add(value);
+    public void addToDeck(int cardValue) {
+        deck.add(cardValue);
     }
-
-    /**
-     * When an object implementing interface {@code Runnable} is used
-     * to create a thread, starting the thread causes the object's
-     * {@code run} method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method {@code run} is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    @Override
-    public void run() {
-
-    }
-
 }
