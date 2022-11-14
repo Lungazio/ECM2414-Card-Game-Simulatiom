@@ -88,12 +88,12 @@ public class cardPortal extends Thread implements Runnable {
     }
 
     public void testDiscards() {
-        ArrayList<Integer> temp = new ArrayList<>(Arrays.asList(12, 2, 5, 2));
-        ArrayList<Integer> temp2 = new ArrayList<>(Arrays.asList(1, 2, 4, 5));
-        ArrayList<Integer> temp3 = new ArrayList<>(Arrays.asList(1, 6, 3, 7));
-        ArrayList<Integer> temp4 = new ArrayList<>(Arrays.asList(1, 6, 9, 4));
-        players.get(0).setHand(temp);
-        players.get(1).setHand(temp2);
+        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+        ArrayList<card> temp2 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+        ArrayList<card> temp3 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+        ArrayList<card> temp4 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+//        players.get(0).setHand(temp);
+//        players.get(1).setHand(temp2);
         decks.get(0).setDeck(temp3);
         decks.get(1).setDeck(temp4);
 

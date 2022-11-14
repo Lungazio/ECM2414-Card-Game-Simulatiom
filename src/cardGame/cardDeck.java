@@ -29,7 +29,7 @@ import java.util.Scanner;
 public class cardDeck {
     private int playerId;
     private int deckId;
-    public ArrayList<Integer> deck = new ArrayList<Integer>();
+    public ArrayList<card> deck = new ArrayList<>();
 
     // default constructor for cardDeck
     public cardDeck(int i) {
@@ -41,24 +41,24 @@ public class cardDeck {
      *
      */
     public void discardToDeck (int cardValue){
-        cardDeck.this.deck.add(cardValue);
+        cardDeck.this.deck.add(new card(cardValue));
     }
 
-    public void setDeck (ArrayList<Integer> setDeck){
+    public void setDeck (ArrayList<card> setDeck){
         deck = setDeck;
     }
     /**
      * Removes the top most card
      * Returns value of the card
      */
-    public int drawFromDeck (){
-        int value = cardDeck.this.deck.get(0);
+    public card drawFromDeck (){
+        card cardTemp = cardDeck.this.deck.get(0);
         cardDeck.this.deck.remove(0);
-        return value;
+        return cardTemp;
     }
 
 
-    public ArrayList<Integer> getCardDeck () {
+    public ArrayList<card> getCardDeck () {
         return this.deck;
     }
 
@@ -76,6 +76,6 @@ public class cardDeck {
     }
 
     public void addToDeck(int cardValue) {
-        deck.add(cardValue);
+        deck.add(new card(cardValue));
     }
 }

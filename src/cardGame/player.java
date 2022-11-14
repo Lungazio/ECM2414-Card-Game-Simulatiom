@@ -12,16 +12,15 @@ public class player implements Runnable {
     private volatile boolean winner;
     //player, plays as thread [WIP need to work on player behaviour]
     private final int playerId;
-    private ArrayList<Integer> hand;
+    private ArrayList<card> hand;
 
-    public player(int playerId,  String playerName, ArrayList<Integer> hand) {
+    public player(int playerId,  String playerName, ArrayList<card> hand) {
         this.playerId = playerId;
         this.playerName = playerName;
         this.hand= new ArrayList<>(4);
 
         create_log_file();
     }
-
 
     //log file for n players
     private String create_log_file() {
