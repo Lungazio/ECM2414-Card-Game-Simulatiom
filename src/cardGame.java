@@ -15,7 +15,6 @@ public class cardGame {
 
         // portal1.getNumPlayers();
         portal1.getPlayersInputPack();
-        portal1.testDiscards();
-        portal1.testThreads();
     }
 }
+

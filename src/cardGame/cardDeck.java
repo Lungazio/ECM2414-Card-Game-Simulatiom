@@ -40,7 +40,7 @@ public class cardDeck {
      * Card is discarded to the bottom
      *
      */
-    public void discardToDeck (card cardValue){
+    public void discard (card cardValue){
         cardDeck.this.deck.add(cardValue);
     }
 

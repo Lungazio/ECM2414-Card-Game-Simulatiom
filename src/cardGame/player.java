@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 public class player implements Runnable {
     public static ArrayList<player> playerTemp = cardPortal.players;
     private ArrayList<player> winners;
@@ -14,10 +13,15 @@ public class player implements Runnable {
     private final int playerId;
     private ArrayList<card> hand;
 
-    public player(int playerId,  String playerName, ArrayList<card> hand) {
+    private cardDeck drawDeck;
+    private cardDeck discardDeck;
+
+    public player(int playerId,  String playerName, cardDeck drawDeck, cardDeck discardDeck) {
         this.playerId = playerId;
         this.playerName = playerName;
         this.hand= new ArrayList<>(4);
+        this.drawDeck = drawDeck;
+        this.discardDeck = discardDeck;
 
         create_log_file();
     }
@@ -118,8 +122,8 @@ public class player implements Runnable {
 
 
     //winner check
-    public player winnerCheck() {
-        return winners.get(0);
+    public boolean winnerCheck() {
+        return false;
     }
 
     /**
@@ -135,7 +139,12 @@ public class player implements Runnable {
      */
     @Override
     public void run() {
-        //drawAndDiscard();
+
+        card draw = drawDeck.drawFromDeck();
+        card discard = drawAndDiscard(draw);
+        discardDeck.discard(discard);
+
+        winnerCheck();
     }
 }
 

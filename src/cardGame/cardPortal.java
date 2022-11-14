@@ -26,12 +26,20 @@ public class cardPortal extends Thread implements Runnable {
         else {
             numOfPlayers = numPlayers;
             //create player and decks
+            cardDeck deckTemp = new cardDeck(0);
+            decks.add(deckTemp);
             for (int i = 0; i < numOfPlayers; i++) {
                 String playerName = "player";
                 playerName += String.valueOf(i);
 
+                // create decks
+                if (i != numOfPlayers-1) {
+                    cardDeck deckTemp2 = new cardDeck(i + 1);
+                    decks.add(deckTemp2);
+                }
+
                 // create player object
-                player temp = new player(i, playerName, new ArrayList<>());
+                player temp = new player(i, playerName, decks.get(i), decks.get(i+1));
                 players.add(temp);
 
                 // create thread for player, set name to playerid
@@ -40,9 +48,6 @@ public class cardPortal extends Thread implements Runnable {
                 //playerThreads.get(i).wait();
                 // inactive until notified
 
-                // create threads for decks
-                cardDeck deckTemp = new cardDeck(i);
-                decks.add(deckTemp);
 
                 String deckName = "player";
                 deckName += String.valueOf(i);
@@ -55,31 +60,31 @@ public class cardPortal extends Thread implements Runnable {
         }
     }
 
-    public void playerActions() {
-        boolean win = false;
-        int playerId = 0;
-        while (!win) {
-            if (playerId == numOfPlayers - 1) {
-                playerId = 0;
-            }
-
-            card drawTemp = decks.get(playerId).drawFromDeck();
-            card discardTemp = players.get(playerId).drawAndDiscard(drawTemp);
-
-            int discardDeckId = 0;
-            if (playerId == numOfPlayers - 1) {
-                discardDeckId = 0;
-            } else {
-                discardDeckId = playerId + 1;
-            }
-            decks.get(discardDeckId).discardToDeck(discardTemp);
-
-            // check for win condition here
-
-
-            playerId++;
-        }
-    }
+//    public void playerActions() {
+//        boolean win = false;
+//        int playerId = 0;
+//        while (!win) {
+//            if (playerId == numOfPlayers - 1) {
+//                playerId = 0;
+//            }
+//
+//            card drawTemp = decks.get(playerId).drawFromDeck();
+//            card discardTemp = players.get(playerId).drawAndDiscard(drawTemp);
+//
+//            int discardDeckId = 0;
+//            if (playerId == numOfPlayers - 1) {
+//                discardDeckId = 0;
+//            } else {
+//                discardDeckId = playerId + 1;
+//            }
+//            decks.get(discardDeckId).discardToDeck(discardTemp);
+//
+//            // check for win condition here
+//
+//
+//            playerId++;
+//        }
+//    }
 
     public void testThreads() {
         for (int i = 0; i < numOfPlayers; i++) {
@@ -87,45 +92,45 @@ public class cardPortal extends Thread implements Runnable {
         }
     }
 
-    public void testDiscards() {
-        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-        ArrayList<card> temp2 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-        ArrayList<card> temp3 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-        ArrayList<card> temp4 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-//        players.get(0).setHand(temp);
-//        players.get(1).setHand(temp2);
-        decks.get(0).setDeck(temp3);
-        decks.get(1).setDeck(temp4);
-
-
-        int playerId = 0;
-        for (int i = 0; i < 4; i++) {
-            if (playerId == numOfPlayers) {
-                playerId = 0;
-            }
-
-            System.out.println("PlayerID(" + playerId + ") initial hand: " + players.get(playerId).getHand());
-            System.out.println("PlayerID(" + playerId + ") deck: " + decks.get(playerId).getCardDeck());
-            card draw = decks.get(playerId).drawFromDeck();
-            card discard = players.get(playerId).drawAndDiscard(draw);
-            System.out.println("PlayerID(" + playerId + ") drawed a " + draw + " from deck " + playerId);
-
-            int discardDeckId = 0;
-            if (playerId == numOfPlayers - 1) {
-                discardDeckId = 0;
-            } else {
-                discardDeckId = playerId + 1;
-            }
-            decks.get(playerId).discardToDeck(discard);
-            System.out.println("PlayerID(" + playerId + ") discards a " + discard + " to deck " + discardDeckId);
-            System.out.println("PlayerID(" + playerId + ") current hand: " + players.get(playerId).getHand() + "\n");
-
-            //decks.get(0).generateDeckOutput(0);
-
-            playerId++;
-        }
-
-    }
+//    public void testDiscards() {
+//        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+//        ArrayList<card> temp2 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+//        ArrayList<card> temp3 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+//        ArrayList<card> temp4 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
+////        players.get(0).setHand(temp);
+////        players.get(1).setHand(temp2);
+//        decks.get(0).setDeck(temp3);
+//        decks.get(1).setDeck(temp4);
+//
+//
+//        int playerId = 0;
+//        for (int i = 0; i < 4; i++) {
+//            if (playerId == numOfPlayers) {
+//                playerId = 0;
+//            }
+//
+//            System.out.println("PlayerID(" + playerId + ") initial hand: " + players.get(playerId).getHand());
+//            System.out.println("PlayerID(" + playerId + ") deck: " + decks.get(playerId).getCardDeck());
+//            card draw = decks.get(playerId).drawFromDeck();
+//            card discard = players.get(playerId).drawAndDiscard(draw);
+//            System.out.println("PlayerID(" + playerId + ") drawed a " + draw + " from deck " + playerId);
+//
+//            int discardDeckId = 0;
+//            if (playerId == numOfPlayers - 1) {
+//                discardDeckId = 0;
+//            } else {
+//                discardDeckId = playerId + 1;
+//            }
+//            decks.get(playerId).discardToDeck(discard);
+//            System.out.println("PlayerID(" + playerId + ") discards a " + discard + " to deck " + discardDeckId);
+//            System.out.println("PlayerID(" + playerId + ") current hand: " + players.get(playerId).getHand() + "\n");
+//
+//            //decks.get(0).generateDeckOutput(0);
+//
+//            playerId++;
+//        }
+//
+//    }
 
     public ArrayList<card> getInputPack(int players) throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -164,59 +169,66 @@ public class cardPortal extends Thread implements Runnable {
 
     // distributes cards to n players
     // used to distribute last half of the input pack into respective player decks
-    public ArrayList<cardDeck> distributeDecks(int players, ArrayList<cardDeck> decks) {
+    public ArrayList<cardDeck> distributeDecks() {
         int counter = 0;
-        int nextHalf = 4 * players + 1;
-        for (int i = nextHalf; i <= 8 * players; i++) {
+        int nextHalf = 4 * numOfPlayers + 1;
+        for (int i = nextHalf; i <= 8 * numOfPlayers; i++) {
             int cardValue = inputPack.get(i).getValue();
 
-            if (counter > players) {
+            if (counter > numOfPlayers) {
                 counter = 0;
                 continue;
             } else {
                 decks.get(counter).addToDeck(cardValue);
             }
-
         }
         return decks;
     }
 
-    public ArrayList<player> distributePlayers(int players, ArrayList<player> player) {
+    public ArrayList<player> distributePlayers() {
 
         int counter = 0;
-        for (int i = 0; i <= 4 * players; i++) {
+        for (int i = 0; i <= 4 * numOfPlayers; i++) {
             card tempCard = inputPack.get(i);
 
-            if (counter > players) {
+            if (counter > numOfPlayers) {
                 counter = 0;
                 continue;
             } else {
-                player.get(counter).addToHand(tempCard);
-
+                players.get(counter).addToHand(tempCard);
             }
         }
-        return player;
+        return players;
     }
 
-    public void startGame (){
-
+    public int winnerCheck(){
+        for (int i = 0; i <numOfPlayers; i++){
+            if (players.get(i).winnerCheck()){
+                return i;
+            }
+        }
+        return 0;
     }
 
-    /**
-     * When an object implementing interface {@code Runnable} is used
-     * to create a thread, starting the thread causes the object's
-     * {@code run} method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method {@code run} is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    @Override
-    public void run() {
-
+    public void startPlayers() {
+        for (player p: players){
+            p.run();
+        }
     }
 
+    public static void main (String[] args) throws Exception {
+        cardPortal cardTestRun = new cardPortal();
+
+        // initalize game
+        cardTestRun.getPlayersInputPack();
+        cardTestRun.distributePlayers();
+        cardTestRun.distributeDecks();
+
+        // win checks before starting the game
+        cardTestRun.winnerCheck();
+
+        // start game
+
+    }
 }
 
