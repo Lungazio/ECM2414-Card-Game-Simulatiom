@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
 
 public class player implements Runnable {
     public static ArrayList<player> playerTemp = cardPortal.players;
@@ -94,17 +95,6 @@ public class player implements Runnable {
 
 
 
-
-    //go around the table [WIP]
-    private void rotations() {
-        synchronized (player.class) {
-            if (winner) {
-            return;
-            }
-        }
-    }
-
-
     //track moves and hands of players
     private void writeLog(String text) {
         System.out.println(text);
@@ -121,10 +111,19 @@ public class player implements Runnable {
 
 
 
-    //winner check
+    // add notify to threads
     public boolean winnerCheck() {
+        card x = hand.get(0);
+        int occurrence = Collections.frequency(hand, x);
+        if (occurrence == 4){
+
+
+            return true;
+        }
         return false;
-    }
+
+
+}
 
     /**
      * When an object implementing interface {@code Runnable} is used
@@ -147,5 +146,4 @@ public class player implements Runnable {
         winnerCheck();
     }
 }
-
 
