@@ -77,42 +77,6 @@ public class card {
 
     // distributes cards to n players
 
-    public ArrayList<player> distributePlayers (int players, ArrayList<player>player) {
-
-        int counter = 0;  
-        for(int i = 0;i<=4*players;i++){
-            int cardValue = inputPack.get(i);
-
-            if (counter > players){
-                counter = 0;
-                continue;}
-
-
-            else{
-            player.get(counter).addToHand(cardValue);
-
-        }
-    }
-        return player;
-}
-
-    // used to distribute last half of the input pack into respective player decks 
-    public ArrayList<cardDeck> distributeDecks (int players, ArrayList<cardDeck>decks){
-        int counter = 0;
-        int nextHalf = 4*players + 1;
-        for (int i = nextHalf; i<=8*players; i++){
-            int cardValue = inputPack.get(i);
-
-            if(counter > players){
-                counter = 0;
-                continue;}
-
-            else{
-                decks.get(counter).addToDeck(cardValue);
-            }
-
-            }
-            return decks;
-        }
+    
     }
     
