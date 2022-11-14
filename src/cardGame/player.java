@@ -38,15 +38,15 @@ public class player implements Runnable {
         }
 
 
-    ArrayList<Integer> getHand() {
+    ArrayList<card> getHand() {
         return hand;
     }
 
-    public void setHand(ArrayList<Integer> setHand){
+    public void setHand(ArrayList<card> setHand){
         hand = setHand;
     }
 
-    public void addToHand (int value){
+    public void addToHand (card value){
         hand.add(value);
     }
 
@@ -58,18 +58,18 @@ public class player implements Runnable {
      *
      * Returns discarded card value
      */
-    public int drawAndDiscard(int drawValue) {
+    public card drawAndDiscard(card drawValue) {
         // add drawValue to current hand
         hand.add(drawValue);
 
         // iterate to remove card
         Iterator itr = hand.iterator();
-        int x = 0;
+        card x = null;
         while (itr.hasNext()) {
             // Remove first element in array that isn't the players preferred number
             // Iterator.remove()
-            x = (Integer) itr.next();
-            if (x == playerId) {
+            x = (card) itr.next();
+            if (x.getValue() == playerId) {
                 continue;
             } else {
                 itr.remove();
@@ -83,7 +83,6 @@ public class player implements Runnable {
                  */
                 break;
             }
-
         }
         return x;
     }

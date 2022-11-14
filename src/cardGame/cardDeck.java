@@ -40,8 +40,8 @@ public class cardDeck {
      * Card is discarded to the bottom
      *
      */
-    public void discardToDeck (int cardValue){
-        cardDeck.this.deck.add(new card(cardValue));
+    public void discardToDeck (card cardValue){
+        cardDeck.this.deck.add(cardValue);
     }
 
     public void setDeck (ArrayList<card> setDeck){

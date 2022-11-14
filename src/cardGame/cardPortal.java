@@ -63,8 +63,8 @@ public class cardPortal extends Thread implements Runnable {
                 playerId = 0;
             }
 
-            int drawValue = decks.get(playerId).drawFromDeck();
-            int discardValue = players.get(playerId).drawAndDiscard(drawValue);
+            card drawTemp = decks.get(playerId).drawFromDeck();
+            card discardTemp = players.get(playerId).drawAndDiscard(drawTemp);
 
             int discardDeckId = 0;
             if (playerId == numOfPlayers - 1) {
@@ -72,7 +72,7 @@ public class cardPortal extends Thread implements Runnable {
             } else {
                 discardDeckId = playerId + 1;
             }
-            decks.get(discardDeckId).discardToDeck(playerId);
+            decks.get(discardDeckId).discardToDeck(discardTemp);
 
             // check for win condition here
 
@@ -106,8 +106,8 @@ public class cardPortal extends Thread implements Runnable {
 
             System.out.println("PlayerID(" + playerId + ") initial hand: " + players.get(playerId).getHand());
             System.out.println("PlayerID(" + playerId + ") deck: " + decks.get(playerId).getCardDeck());
-            int draw = decks.get(playerId).drawFromDeck();
-            int discard = players.get(playerId).drawAndDiscard(draw);
+            card draw = decks.get(playerId).drawFromDeck();
+            card discard = players.get(playerId).drawAndDiscard(draw);
             System.out.println("PlayerID(" + playerId + ") drawed a " + draw + " from deck " + playerId);
 
             int discardDeckId = 0;
@@ -185,13 +185,13 @@ public class cardPortal extends Thread implements Runnable {
 
         int counter = 0;
         for (int i = 0; i <= 4 * players; i++) {
-            int cardValue = inputPack.get(i).getValue();
+            card tempCard = inputPack.get(i);
 
             if (counter > players) {
                 counter = 0;
                 continue;
             } else {
-                player.get(counter).addToHand(cardValue);
+                player.get(counter).addToHand(tempCard);
 
             }
         }
