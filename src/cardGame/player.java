@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
 
 
 public class player implements Runnable {
@@ -90,17 +91,6 @@ public class player implements Runnable {
 
 
 
-
-    //go around the table [WIP]
-    private void rotations() {
-        synchronized (player.class) {
-            if (winner) {
-            return;
-            }
-        }
-    }
-
-
     //track moves and hands of players
     private void writeLog(String text) {
         System.out.println(text);
@@ -118,8 +108,9 @@ public class player implements Runnable {
 
 
     //winner check
-    public player winnerCheck() {
-        return winners.get(0);
+    public boolean winnerCheck(ArrayList<player>players) {
+        return players.isEmpty() || Collections.frequency(players, players.get(0)) == players.size();
+}
     }
 
     /**
