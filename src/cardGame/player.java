@@ -111,7 +111,7 @@ public class player implements Runnable {
     public boolean winnerCheck(ArrayList<player>players) {
         return players.isEmpty() || Collections.frequency(players, players.get(0)) == players.size();
 }
-    }
+    
 
     /**
      * When an object implementing interface {@code Runnable} is used
@@ -129,5 +129,4 @@ public class player implements Runnable {
         //drawAndDiscard();
     }
 }
-
 
