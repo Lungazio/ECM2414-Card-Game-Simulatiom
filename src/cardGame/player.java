@@ -1,4 +1,5 @@
 package cardGame;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,10 +18,10 @@ public class player implements Runnable {
     private cardDeck drawDeck;
     private cardDeck discardDeck;
 
-    public player(int playerId,  String playerName, cardDeck drawDeck, cardDeck discardDeck) {
+    public player(int playerId, String playerName, cardDeck drawDeck, cardDeck discardDeck) {
         this.playerId = playerId;
         this.playerName = playerName;
-        this.hand= new ArrayList<>(4);
+        this.hand = new ArrayList<>(4);
         this.drawDeck = drawDeck;
         this.discardDeck = discardDeck;
 
@@ -32,35 +33,37 @@ public class player implements Runnable {
         String filename = "Player" + playerId + "-output.txt";
         File log_file = new File(filename);
         try {
-          if (log_file.exists())
-            log_file.delete();
-          log_file.createNewFile();
-          return filename;
+            if (log_file.exists())
+                log_file.delete();
+            log_file.createNewFile();
+            return filename;
         } catch (IOException e) {
-          System.out.println("Couldnt create file: " + filename);
-          return null;}
-
+            System.out.println("Couldnt create file: " + filename);
+            return null;
         }
+
+    }
 
 
     ArrayList<card> getHand() {
         return hand;
     }
 
-    public void setHand(ArrayList<card> setHand){
+    public void setHand(ArrayList<card> setHand) {
         hand = setHand;
     }
 
-    public void addToHand (card value){
+    public void addToHand(card value) {
         hand.add(value);
     }
 
 
     // implement atomic action atomic array?
+
     /**
      * Draws from the deck to their left
      * Chooses a non preferred card to discard
-     *
+     * <p>
      * Returns discarded card value
      */
     public card drawAndDiscard(card drawValue) {
@@ -93,8 +96,6 @@ public class player implements Runnable {
     }
 
 
-
-
     //track moves and hands of players
     private void writeLog(String text) {
         System.out.println(text);
@@ -110,20 +111,30 @@ public class player implements Runnable {
     }
 
 
-
     // add notify to threads
     public boolean winnerCheck() {
-        card x = hand.get(0);
-        int occurrence = Collections.frequency(hand, x);
-        if (occurrence == 4){
-
-
+        ArrayList<Integer> tempHand = new ArrayList<>();
+        for (card x : hand){
+            tempHand.add(x.getValue());
+        }
+        int x = playerId;
+        int occurrence = Collections.frequency(tempHand, x);
+        System.out.println("occurrence :" + occurrence);
+        if (occurrence == 4) {
             return true;
         }
         return false;
+    }
 
-
-}
+    public void printHand() {
+        String output = "hands of player" + playerId + " : " + hand.get(0).getValue();
+        if (hand.size() > 1){
+            for (int i = 1; i < hand.size(); i++) {
+                output = output + " , " + hand.get(i).getValue();
+            }
+        }
+        System.out.println(output);
+    }
 
     /**
      * When an object implementing interface {@code Runnable} is used
@@ -138,12 +149,21 @@ public class player implements Runnable {
      */
     @Override
     public void run() {
-
-        card draw = drawDeck.drawFromDeck();
-        card discard = drawAndDiscard(draw);
-        discardDeck.discard(discard);
+        boolean win = false;
 
         winnerCheck();
+
+        while(!win){
+            card draw = drawDeck.drawFromDeck();
+            System.out.println("player " + playerId + " draws a " + draw.getValue() + " from deck " + playerId);
+            card discard = drawAndDiscard(draw);
+            System.out.println("player " + playerId + " discards a " + draw.getValue() + " to deck " + discardDeck);
+            discardDeck.discard(discard);
+
+            // write to output file
+
+
+        }
     }
 }
 

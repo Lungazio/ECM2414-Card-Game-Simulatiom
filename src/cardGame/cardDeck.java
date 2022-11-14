@@ -32,7 +32,7 @@ public class cardDeck {
     public ArrayList<card> deck = new ArrayList<>();
 
     // default constructor for cardDeck
-    public cardDeck(int i) {
+    public cardDeck(int playerId) {
         this.playerId = playerId;
     }
 
@@ -73,6 +73,16 @@ public class cardDeck {
         } catch (IOException err) {
             err.printStackTrace();
         }
+    }
+
+    public void printDeck() {
+        String output = "decks of player" + playerId + " : " + deck.get(0).getValue();
+        if (deck.size() > 1){
+            for (int i = 1; i < deck.size(); i++) {
+                output = output + " , " + deck.get(i).getValue();
+            }
+        }
+        System.out.println(output);
     }
 
     public void addToDeck(int cardValue) {

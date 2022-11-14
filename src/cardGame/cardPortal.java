@@ -18,6 +18,7 @@ public class cardPortal extends Thread implements Runnable {
 
 
     public void getPlayersInputPack() throws Exception {
+
         System.out.print("Enter number of players: ");
         Scanner scanner = new Scanner(System.in);
 
@@ -37,7 +38,6 @@ public class cardPortal extends Thread implements Runnable {
                 String playerName = "player";
                 playerName += String.valueOf(i);
 
-
                 // create player object
                 if (i == numOfPlayers-1){
                     discardDeckId = 0;
@@ -52,45 +52,12 @@ public class cardPortal extends Thread implements Runnable {
                 playerThreads.add(new Thread(temp));
                 playerThreads.get(i).setName(playerName);
                 //playerThreads.get(i).wait();
-                // inactive until notified
-
-
-                String deckName = "player";
-                deckName += String.valueOf(i);
-//                deckThreads.add(new Thread(deckTemp));
-//                deckThreads.get(i).setName(deckName);
-                //deckThreads.get(i).wait();
 
             }
             inputPack = getInputPack(numOfPlayers);
         }
     }
 
-//    public void playerActions() {
-//        boolean win = false;
-//        int playerId = 0;
-//        while (!win) {
-//            if (playerId == numOfPlayers - 1) {
-//                playerId = 0;
-//            }
-//
-//            card drawTemp = decks.get(playerId).drawFromDeck();
-//            card discardTemp = players.get(playerId).drawAndDiscard(drawTemp);
-//
-//            int discardDeckId = 0;
-//            if (playerId == numOfPlayers - 1) {
-//                discardDeckId = 0;
-//            } else {
-//                discardDeckId = playerId + 1;
-//            }
-//            decks.get(discardDeckId).discardToDeck(discardTemp);
-//
-//            // check for win condition here
-//
-//
-//            playerId++;
-//        }
-//    }
 
     public void testThreads() {
         for (int i = 0; i < numOfPlayers; i++) {
@@ -177,8 +144,7 @@ public class cardPortal extends Thread implements Runnable {
     // used to distribute last half of the input pack into respective player decks
     public ArrayList<cardDeck> distributeDecks() {
         int counter = 0;
-        int nextHalf = 4 * numOfPlayers + 1;
-        for (int i = nextHalf; i < 8 * numOfPlayers; i++) {
+        for (int i = 4 * numOfPlayers; i < 8 * numOfPlayers; i++) {
             int cardValue = inputPack.get(i).getValue();
 
             if (counter == numOfPlayers) {
@@ -209,8 +175,13 @@ public class cardPortal extends Thread implements Runnable {
     }
 
     public int winnerCheck(){
+        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1), new card(1), new card(1), new card(1)));
+        players.get(1).setHand(temp);
         for (int i = 0; i <numOfPlayers; i++){
+            players.get(i).printHand();
             if (players.get(i).winnerCheck()){
+                System.out.println("PLAYER " + i + " HAS WON!!!!");
+                players.get(i).printHand();
                 return i;
             }
         }
@@ -230,22 +201,15 @@ public class cardPortal extends Thread implements Runnable {
         cardTestRun.getPlayersInputPack();
         ArrayList<player> players = cardTestRun.distributePlayers();
         ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
-        for (int i = 0; i < 4; i++){
-            System.out.println((players.get(0).getHand().get(i).getValue()));
-        }
-        //for (int i = 0; i < 4; i++){
-            System.out.println((players.get(1).getHand().size()));
-        //}
-//        for (int i = 0; i < 4; i++){
-//            System.out.println(deck.get(0).getCardDeck().get(i).getValue());
-//        }
-//        for (int i = 0; i < 4; i++){
-//            System.out.println((deck.get(1).getCardDeck().get(i).getValue()));
-//        }
+        players.get(0).printHand();
+        players.get(1).printHand();
+        deck.get(0).printDeck();
+        deck.get(1).printDeck();
 
         // win checks before starting the game
-        //cardTestRun.winnerCheck();
+        cardTestRun.winnerCheck();
 
+        cardTestRun.startPlayers();
 
     }
 }
