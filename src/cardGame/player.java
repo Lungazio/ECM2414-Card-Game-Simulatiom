@@ -8,9 +8,9 @@ import java.util.Collections;
 
 public class player implements Runnable {
     public static ArrayList<player> playerTemp = cardPortal.players;
-    private ArrayList<player> winners;
+    private static int winners;
     public static String playerName;
-    private volatile boolean winner;
+    private static boolean win = false;
     //player, plays as thread [WIP need to work on player behaviour]
     private final int playerId;
     private ArrayList<card> hand;
@@ -123,6 +123,7 @@ public class player implements Runnable {
         int occurrence = Collections.frequency(tempHand, x);
         System.out.println("occurrence :" + occurrence);
         if (occurrence == 4) {
+            winners = x;
             return true;
         }
         return false;
@@ -138,6 +139,19 @@ public class player implements Runnable {
         System.out.println(output);
     }
 
+    private synchronized void end(){
+        if (winners == playerId){
+            System.out.println("player " + playerId + " wins");
+        }else {
+            System.out.println("player " + winners + " has informed player " + playerId + "that " + winners + " has won");
+        }
+        String output = String.valueOf(hand.get(0).getValue());
+        for (int i = 1; i < hand.size(); i++) {
+            output = output + " , " + hand.get(i).getValue();
+        }
+        System.out.println("player " + playerId + " hands: " + output);
+    }
+
     /**
      * When an object implementing interface {@code Runnable} is used
      * to create a thread, starting the thread causes the object's
@@ -151,21 +165,32 @@ public class player implements Runnable {
      */
     @Override
     public void run() {
-        boolean win = false;
-
-        winnerCheck();
+//        if (winnerCheck()){
+//            try {
+//                Thread.sleep(9999999);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         while(!win){
+            // draw and discards
             card draw = drawDeck.drawFromDeck();
-            System.out.println("player " + playerId + " draws a " + draw.getValue() + " from deck " + playerId);
             card discard = drawAndDiscard(draw);
-            System.out.println("player " + playerId + " discards a " + discard.getValue() + " to deck " + discardDeck.getDeckId());
             discardDeck.discard(discard);
+
+            System.out.println("player " + playerId + " draws a " + draw.getValue() + " from deck " + playerId);
+            System.out.println("player " + playerId + " discards a " + discard.getValue() + " to deck " + discardDeck.getDeckId());
 
             printHand();
             discardDeck.printDeck();
+            
+            if (winnerCheck()){
+                win = true;
+                end();
+            }
 
-
+            System.out.println("\n");
 
             // write to output file
             try {
@@ -174,11 +199,7 @@ public class player implements Runnable {
                 e.printStackTrace();
             }
 
-            if (winnerCheck()){
-                System.out.println("win player" + playerId);
-                win = true;
-            }
-            System.out.println("\n");
+
         }
     }
 }

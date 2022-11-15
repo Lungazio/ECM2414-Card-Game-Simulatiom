@@ -45,7 +45,7 @@ public class cardDeck {
         return playerId;
     }
 
-    public synchronized void discard (card cardValue){
+    public void discard (card cardValue){
         deck.add(cardValue);
     }
 

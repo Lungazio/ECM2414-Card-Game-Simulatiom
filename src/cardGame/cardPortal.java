@@ -39,12 +39,18 @@ public class cardPortal extends Thread implements Runnable {
                 playerName += String.valueOf(i +1);
 
                 // create player object
+                //i = 0 , i = 1;
+                // decks 1, 2
+                //
+
+
                 if (i == numOfPlayers-1){
                     discardDeckId = 0;
                 }
                 else{
-                   discardDeckId = i;
+                   discardDeckId = i+1;
                 }
+
                 player temp = new player(i + 1, playerName, decks.get(i), decks.get(discardDeckId));
                 players.add(temp);
 
@@ -188,7 +194,6 @@ public class cardPortal extends Thread implements Runnable {
 
     public void startPlayers() {
         for (player p: players){
-            System.out.println(p.getPlayerId());
             Thread tempThread = new Thread(p);
             tempThread.start();
         }
@@ -202,11 +207,12 @@ public class cardPortal extends Thread implements Runnable {
         ArrayList<player> players = cardTestRun.distributePlayers();
         ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
 
-
-        // win checks before starting the game
-        cardTestRun.winnerCheck();
-
         cardTestRun.startPlayers();
+
+//
+//        while (!ended){
+//            cardTestRun.winnerCheck();
+//        }
 
 //        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 //        System.out.println(threadSet);
