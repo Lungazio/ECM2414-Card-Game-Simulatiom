@@ -40,8 +40,13 @@ public class cardDeck {
      * Card is discarded to the bottom
      *
      */
-    public void discard (card cardValue){
-        cardDeck.this.deck.add(cardValue);
+
+    public int getDeckId (){
+        return playerId;
+    }
+
+    public synchronized void discard (card cardValue){
+        deck.add(cardValue);
     }
 
     public void setDeck (ArrayList<card> setDeck){
@@ -51,8 +56,8 @@ public class cardDeck {
      * Removes the top most card
      * Returns value of the card
      */
-    public card drawFromDeck (){
-        card cardTemp = cardDeck.this.deck.get(0);
+    public synchronized card drawFromDeck (){
+        card cardTemp = deck.get(0);
         cardDeck.this.deck.remove(0);
         return cardTemp;
     }

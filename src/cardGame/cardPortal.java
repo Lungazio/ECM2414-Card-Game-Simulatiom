@@ -31,8 +31,8 @@ public class cardPortal extends Thread implements Runnable {
             for (int i = 0; i < numOfPlayers; i++){
                 cardDeck deckTemp = new cardDeck(i);
                 decks.add(deckTemp);
-
             }
+
             int discardDeckId;
             for (int i = 0; i < numOfPlayers; i++) {
                 String playerName = "player";
@@ -175,12 +175,10 @@ public class cardPortal extends Thread implements Runnable {
     }
 
     public int winnerCheck(){
-        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1), new card(1), new card(1), new card(1)));
-        players.get(1).setHand(temp);
         for (int i = 0; i <numOfPlayers; i++){
             players.get(i).printHand();
             if (players.get(i).winnerCheck()){
-                System.out.println("PLAYER " + i + " HAS WON!!!!");
+                System.out.println("Player " + i + " has won!!!!");
                 players.get(i).printHand();
                 return i;
             }
@@ -190,7 +188,9 @@ public class cardPortal extends Thread implements Runnable {
 
     public void startPlayers() {
         for (player p: players){
-            p.run();
+            System.out.println(p.getPlayerId());
+            Thread tempThread = new Thread(p);
+            tempThread.start();
         }
     }
 
@@ -201,16 +201,15 @@ public class cardPortal extends Thread implements Runnable {
         cardTestRun.getPlayersInputPack();
         ArrayList<player> players = cardTestRun.distributePlayers();
         ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
-        players.get(0).printHand();
-        players.get(1).printHand();
-        deck.get(0).printDeck();
-        deck.get(1).printDeck();
+
 
         // win checks before starting the game
         cardTestRun.winnerCheck();
 
         cardTestRun.startPlayers();
 
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//        System.out.println(threadSet);
     }
 }
 

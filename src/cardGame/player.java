@@ -44,7 +44,9 @@ public class player implements Runnable {
 
     }
 
-
+    public int getPlayerId (){
+        return playerId;
+    }
     ArrayList<card> getHand() {
         return hand;
     }
@@ -66,7 +68,7 @@ public class player implements Runnable {
      * <p>
      * Returns discarded card value
      */
-    public card drawAndDiscard(card drawValue) {
+    public synchronized card drawAndDiscard(card drawValue) {
         // add drawValue to current hand
         hand.add(drawValue);
 
@@ -157,12 +159,26 @@ public class player implements Runnable {
             card draw = drawDeck.drawFromDeck();
             System.out.println("player " + playerId + " draws a " + draw.getValue() + " from deck " + playerId);
             card discard = drawAndDiscard(draw);
-            System.out.println("player " + playerId + " discards a " + draw.getValue() + " to deck " + discardDeck);
+            System.out.println("player " + playerId + " discards a " + discard.getValue() + " to deck " + discardDeck.getDeckId());
             discardDeck.discard(discard);
 
+            printHand();
+            discardDeck.printDeck();
+
+
+
             // write to output file
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-
+            if (winnerCheck()){
+                System.out.println("win player" + playerId);
+                win = true;
+            }
+            System.out.println("\n");
         }
     }
 }
