@@ -77,7 +77,7 @@ public class player implements Runnable {
             // Remove first element in array that isn't the players preferred number
             // Iterator.remove()
             x = (card) itr.next();
-            if (x.getValue() == playerId) {
+            if (x.getValue() == playerId + 1) {
                 continue;
             } else {
                 itr.remove();
