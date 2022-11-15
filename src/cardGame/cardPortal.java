@@ -29,23 +29,23 @@ public class cardPortal extends Thread implements Runnable {
             //create player and decks
 
             for (int i = 0; i < numOfPlayers; i++){
-                cardDeck deckTemp = new cardDeck(i);
+                cardDeck deckTemp = new cardDeck(i +1);
                 decks.add(deckTemp);
 
             }
             int discardDeckId;
             for (int i = 0; i < numOfPlayers; i++) {
                 String playerName = "player";
-                playerName += String.valueOf(i);
+                playerName += String.valueOf(i +1);
 
                 // create player object
                 if (i == numOfPlayers-1){
                     discardDeckId = 0;
                 }
                 else{
-                   discardDeckId = i+1;
+                   discardDeckId = i;
                 }
-                player temp = new player(i, playerName, decks.get(i), decks.get(discardDeckId));
+                player temp = new player(i + 1, playerName, decks.get(i), decks.get(discardDeckId));
                 players.add(temp);
 
                 // create thread for player, set name to playerid
