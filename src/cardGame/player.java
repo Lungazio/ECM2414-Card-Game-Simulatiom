@@ -8,12 +8,13 @@ import java.util.Collections;
 
 public class player implements Runnable {
     public static ArrayList<player> playerTemp = cardPortal.players;
-    private static int winners;
+    private static int winner;
     public static String playerName;
-    private static boolean win = false;
+    private boolean win = false;
     //player, plays as thread [WIP need to work on player behaviour]
     private final int playerId;
     private ArrayList<card> hand;
+
 
     private cardDeck drawDeck;
     private cardDeck discardDeck;
@@ -68,6 +69,63 @@ public class player implements Runnable {
      * <p>
      * Returns discarded card value
      */
+
+
+
+    //track moves and hands of players
+    private void writeLog(String text) {
+        System.out.println(text);
+
+        Writer output = null;
+        try {
+            output = new BufferedWriter(new FileWriter("Player" + playerId + "_output.txt", true));
+            output.append(text).append("\n");
+            output.close();
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
+    }
+
+    public String getStringHand() {
+        String output = String.valueOf(hand.get(0).getValue());
+        if (hand.size() > 1){
+            for (int i = 1; i < hand.size(); i++) {
+                output = output + " , " + hand.get(i).getValue();
+            }
+        }
+        return output;
+    }
+
+
+    // add notify to threads
+    public boolean winnerCheck(boolean preGameCheck) {
+        ArrayList<Integer> tempHand = new ArrayList<>();
+        for (card x : hand){
+            tempHand.add(x.getValue());
+        }
+
+        int x = 0;
+
+        // if preGameCheck == true, case non-preferred denom
+        if (preGameCheck){
+            x = hand.get(0).getValue();
+        }else{
+            x = playerId;
+        }
+
+        int occurrence = Collections.frequency(tempHand, x);
+        if (occurrence == 4) {
+            winner = x;
+            return true;
+        }
+        return false;
+    }
+
+    public void printHand() {
+        String output = "player" + playerId + " current hand is " + getStringHand();
+        System.out.println(output);
+    }
+
     public synchronized card drawAndDiscard(card drawValue) {
         // add drawValue to current hand
         hand.add(drawValue);
@@ -98,60 +156,49 @@ public class player implements Runnable {
     }
 
 
-    //track moves and hands of players
-    private void writeLog(String text) {
-        System.out.println(text);
-
-        Writer output = null;
-        try {
-            output = new BufferedWriter(new FileWriter("Player" + playerId + "_output.txt", true));
-            output.append(text).append("\n");
-            output.close();
-        } catch (IOException err) {
-            err.printStackTrace();
+    private synchronized void end(){
+//        Set<Thread> allThreads = Thread.getAllStackTraces().keySet();
+//        for (Thread t : allThreads){
+//            t.notifyAll();
+//            t.interrupt();
+//        }
+        win = true;
+        if (winner == playerId){
+            System.out.println("\nplayer " + playerId + " wins");
+            System.out.println("player " + playerId + " exits");
+            System.out.println("player " + playerId + " final hand: " + getStringHand());
+        }else {
+            System.out.println("\nplayer " + winner + " has informed player " + playerId + " that " + winner + " has won");
+            System.out.println("player " + playerId + " exits");
+            System.out.println("player " + playerId + " hand: " + getStringHand());
         }
     }
+    public synchronized int draw(){
+        card draw = drawDeck.drawFromDeck();
+        hand.add(draw);
 
-
-    // add notify to threads
-    public boolean winnerCheck() {
-        ArrayList<Integer> tempHand = new ArrayList<>();
-        for (card x : hand){
-            tempHand.add(x.getValue());
-        }
-        int x = playerId;
-        int occurrence = Collections.frequency(tempHand, x);
-        System.out.println("occurrence :" + occurrence);
-        if (occurrence == 4) {
-            winners = x;
-            return true;
-        }
-        return false;
+        return draw.getValue();
     }
 
-    public void printHand() {
-        String output = "hands of player" + playerId + " : " + hand.get(0).getValue();
-        if (hand.size() > 1){
-            for (int i = 1; i < hand.size(); i++) {
-                output = output + " , " + hand.get(i).getValue();
+    public synchronized int discard(){
+        // iterate to remove card
+        Iterator itr = hand.iterator();
+        card x = null;
+        while (itr.hasNext()) {
+            // Remove first element in array that isn't the players preferred number
+            // Iterator.remove()
+            x = (card) itr.next();
+            if (x.getValue() == playerId) {
+                continue;
+            } else {
+                itr.remove();
+                break;
             }
         }
-        System.out.println(output);
-    }
+        discardDeck.discard(x);
 
-    private synchronized void end(){
-        if (winners == playerId){
-            System.out.println("player " + playerId + " wins");
-        }else {
-            System.out.println("player " + winners + " has informed player " + playerId + "that " + winners + " has won");
-        }
-        String output = String.valueOf(hand.get(0).getValue());
-        for (int i = 1; i < hand.size(); i++) {
-            output = output + " , " + hand.get(i).getValue();
-        }
-        System.out.println("player " + playerId + " hands: " + output);
+        return x.getValue();
     }
-
     /**
      * When an object implementing interface {@code Runnable} is used
      * to create a thread, starting the thread causes the object's
@@ -163,41 +210,45 @@ public class player implements Runnable {
      *
      * @see Thread#run()
      */
+
+    public void printTurn(){
+
+    }
+
     @Override
     public void run() {
-//        if (winnerCheck()){
-//            try {
-//                Thread.sleep(9999999);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        winnerCheck(true);
+        if (winner != 0){
+            end();
+        }
 
         while(!win){
             // draw and discards
-            card draw = drawDeck.drawFromDeck();
-            card discard = drawAndDiscard(draw);
-            discardDeck.discard(discard);
-
-            System.out.println("player " + playerId + " draws a " + draw.getValue() + " from deck " + playerId);
-            System.out.println("player " + playerId + " discards a " + discard.getValue() + " to deck " + discardDeck.getDeckId());
-
-            printHand();
-            discardDeck.printDeck();
-            
-            if (winnerCheck()){
-                win = true;
+//            card draw = drawDeck.drawFromDeck();
+//            card discard = drawAndDiscard(draw);
+//            discardDeck.discard(discard);
+            if (winner != 0){
                 end();
-            }
+            }else{
+                int draw = draw();
+                int discard = discard();
+                printHand();
+                //discardDeck.printDeck();
+                System.out.println("player " + playerId + " draws a " + draw + " from deck " + playerId);
+                System.out.println("player " + playerId + " discards a " + discard + " to deck " + discardDeck.getDeckId());
 
-            System.out.println("\n");
+                winnerCheck(false);
 
-            // write to output file
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+                // write to output file
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+//src/inputpack.txt
+
 
 
         }

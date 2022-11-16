@@ -180,16 +180,11 @@ public class cardPortal extends Thread implements Runnable {
         return players;
     }
 
-    public int winnerCheck(){
-        for (int i = 0; i <numOfPlayers; i++){
-            players.get(i).printHand();
-            if (players.get(i).winnerCheck()){
-                System.out.println("Player " + i + " has won!!!!");
-                players.get(i).printHand();
-                return i;
-            }
+    public void printInitialHand(){
+        for (player p : players){
+            System.out.println("player " + p.getPlayerId() + " initial hand: " + p.getStringHand());
         }
-        return 0;
+        System.out.println("Game is starting\n");
     }
 
     public void startPlayers() {
@@ -207,6 +202,7 @@ public class cardPortal extends Thread implements Runnable {
         ArrayList<player> players = cardTestRun.distributePlayers();
         ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
 
+        cardTestRun.printInitialHand();
         cardTestRun.startPlayers();
 
 //
