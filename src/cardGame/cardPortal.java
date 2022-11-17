@@ -12,10 +12,7 @@ public class cardPortal extends Thread implements Runnable {
     public static ArrayList<player> players = new ArrayList<>();
     public static ArrayList<cardDeck> decks = new ArrayList<>();
     private ArrayList<card> inputPack = new ArrayList<>();
-    ArrayList<Thread> playerThreads = new ArrayList<>();
-    ArrayList<Thread> deckThreads = new ArrayList<>();
     int numOfPlayers = 0;
-
 
     public void getPlayersInputPack() throws Exception {
 
@@ -54,22 +51,16 @@ public class cardPortal extends Thread implements Runnable {
                 player temp = new player(i + 1, playerName, decks.get(i), decks.get(discardDeckId));
                 players.add(temp);
 
-                // create thread for player, set name to playerid
-                playerThreads.add(new Thread(temp));
-                playerThreads.get(i).setName(playerName);
-                //playerThreads.get(i).wait();
+//                // create thread for player, set name to playerid
+//                playerThreads.add(new Thread(temp));
+//                playerThreads.get(i).setName(playerName);
+//                //playerThreads.get(i).wait();
 
             }
             inputPack = getInputPack(numOfPlayers);
         }
     }
 
-
-    public void testThreads() {
-        for (int i = 0; i < numOfPlayers; i++) {
-            System.out.println(playerThreads.get(i).getName());
-        }
-    }
 
 //    public void testDiscards() {
 //        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
@@ -182,9 +173,11 @@ public class cardPortal extends Thread implements Runnable {
 
     public void printInitialHand(){
         for (player p : players){
-            System.out.println("player " + p.getPlayerId() + " initial hand: " + p.getStringHand());
+            String output = "player " + p.getPlayerId() + " initial hand: " + p.getStringHand();
+            p.writeLog(output);
+
+            System.out.println(output);
         }
-        System.out.println("Game is starting\n");
     }
 
     public void startPlayers() {
@@ -192,6 +185,33 @@ public class cardPortal extends Thread implements Runnable {
             Thread tempThread = new Thread(p);
             tempThread.start();
         }
+    }
+
+    public void setPlayers(){
+        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(1),new card(1),new card(1)));
+        players.get(3).setHand(temp);
+    }
+
+    public boolean winnerCheck() {
+
+        for (player p : players){
+            ArrayList<Integer> tempHand = new ArrayList<>();
+            for (card x : p.getHand()){
+                tempHand.add(x.getValue());
+            }
+            int x;
+            x = p.getHand().get(0).getValue();
+            int occurrence = Collections.frequency(tempHand, x);
+            if (occurrence == 4) {
+                p.setWinner(p.getPlayerId());
+                for (player p1 : players) {
+                    p1.end();
+                }
+                return true;
+                //
+            }
+        }
+        return false;
     }
 
     public static void main (String[] args) throws Exception {
@@ -203,8 +223,9 @@ public class cardPortal extends Thread implements Runnable {
         ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
 
         cardTestRun.printInitialHand();
-        cardTestRun.startPlayers();
-
+        if (!cardTestRun.winnerCheck()) {
+            cardTestRun.startPlayers();
+        }
 //
 //        while (!ended){
 //            cardTestRun.winnerCheck();
