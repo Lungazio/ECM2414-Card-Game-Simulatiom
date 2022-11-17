@@ -26,10 +26,7 @@ player2 current hand is 2 , 6 , 9 , 2
 player 2 draws a 8 from deck 2
 player 2 discards a 6 to deck 3
 player2 current hand is 2 , 9 , 2 , 8
-player 2 draws a 5 from deck 2
-player 2 discards a 9 to deck 3
-player2 current hand is 2 , 2 , 8 , 5
 
 player 3 has informed player 2 that player 3 has won
 player 2 exits
-player 2 hand: 2 , 2 , 8 , 5
+player 2 hand: 2 , 9 , 2 , 8

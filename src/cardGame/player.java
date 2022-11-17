@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Collections;
 
 public class player implements Runnable {
-    public static ArrayList<player> playerTemp = cardPortal.players;
     private static int winner;
     public static String playerName;
     private boolean win = false;
