@@ -1,4 +1,0 @@
-deck 0 contents: [6, 3, 7, 12]
-deck 0 contents: [6, 3, 7, 12]
-deck 0 contents: [3, 7, 12, 2]
-deck 0 contents: [3, 7, 12, 2]

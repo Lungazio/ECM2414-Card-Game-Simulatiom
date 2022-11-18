@@ -5,16 +5,16 @@ import java.util.*;
 import java.util.Collections;
 
 public class player implements Runnable {
-    private static int winner;
-    private boolean win = false;
-    //player, plays as thread [WIP need to work on player behaviour]
-    private final int playerId;
-    private ArrayList<card> hand;
+    private static int winner;  //winner ID used for the winner check
+    private boolean win = false; //used to check whether the game ends 
+    private final int playerId; //Assign to players for distribution of cards, hands and winner check
+    private ArrayList<card> hand; //Array to hold card values of players
 
 
     private cardDeck drawDeck;
     private cardDeck discardDeck;
 
+    //log file for n players and places into output file respective to playerID
     public player(int playerId, cardDeck drawDeck, cardDeck discardDeck) {
         this.playerId = playerId;
         this.hand = new ArrayList<>(4);
@@ -24,7 +24,7 @@ public class player implements Runnable {
         create_log_file();
     }
 
-    //log file for n players
+    // Make logs and deletes old data from previous games if it exists
     private String create_log_file() {
         String filename = "Player" + playerId + "_output.txt";
         File log_file = new File(filename);
@@ -33,10 +33,13 @@ public class player implements Runnable {
                 log_file.delete();
             log_file.createNewFile();
             return filename;
+            
+            //throw an exception if failed to make log
         } catch (IOException e) {
             System.out.println("Couldn't create file: " + filename);
             return null;
         }
+
     }
 
     public int getPlayerId (){
@@ -55,17 +58,6 @@ public class player implements Runnable {
     }
 
 
-    // implement atomic action atomic array?
-
-    /**
-     * Draws from the deck to their left
-     * Chooses a non preferred card to discard
-     * <p>
-     * Returns discarded card value
-     */
-
-
-
     //track moves and hands of players
     public void writeLog(String text) {
         Writer output = null;
@@ -77,7 +69,9 @@ public class player implements Runnable {
             err.printStackTrace();
         }
     }
+    
 
+    //used for printing of player hands by turning values to string
     public String getStringHand() {
         String output = String.valueOf(hand.get(0).getValue());
         if (hand.size() > 1){
@@ -89,16 +83,16 @@ public class player implements Runnable {
     }
 
 
-    // add notify to threads
+    // used to reuturn a boolean whether a player had won or not
     public boolean winnerCheck() {
-        ArrayList<Integer> tempHand = new ArrayList<>();
+        ArrayList<Integer> winnerHand = new ArrayList<>();
         for (card x : hand){
-            tempHand.add(x.getValue());
+            winnerHand.add(x.getValue());
         }
 
         int x = playerId;
-
-        int occurrence = Collections.frequency(tempHand, x);
+        // check occurences of a certain card value of a winner hand when 4 of a kind are found returns True 
+        int occurrence = Collections.frequency(winnerHand, x);
         if (occurrence == 4) {
             winner = x;
             return true;
@@ -106,6 +100,8 @@ public class player implements Runnable {
         return false;
     }
 
+
+    //Prints player's actions 
     public void printTurn(int draw, int discard) {
         String output = "player " + playerId + " draws a " + draw + " from deck " + playerId
                 + "\nplayer " + playerId + " discards a " + discard + " to deck " + discardDeck.getDeckId()
@@ -115,29 +111,27 @@ public class player implements Runnable {
         System.out.println(output);
     }
 
+    //Used for player's action of drawing and discarding along with behavious of preferring values of their playerID
     public synchronized card drawAndDiscard(card drawValue) {
         // add drawValue to current hand
         hand.add(drawValue);
 
-        // iterate to remove card
+        // iterate through player hands to remove a card
         Iterator itr = hand.iterator();
         card x = null;
         while (itr.hasNext()) {
             // Remove first element in array that isn't the players preferred number
             // Iterator.remove()
             x = (card) itr.next();
+            //when a card value is their playerID move on the next element int the array
             if (x.getValue() == playerId) {
                 continue;
-            } else {
+            } 
+
+           
+            else {
                 itr.remove();
-                // x is the card to be discarded
-
-                //System.out.print(elem);
-
-                //add a card from deck
-                /**
-                 * 0 AS PLACEHOLDER
-                 */
+                
                 break;
             }
         }
@@ -148,7 +142,8 @@ public class player implements Runnable {
         winner = winnerId;
     }
 
-    public synchronized void end(){
+    //Ends the threads when winner is found, Print out decks of winner and losers as well as player dialogue
+    public void end(){
         win = true;
         String output;
         if (winner == playerId){
@@ -161,16 +156,19 @@ public class player implements Runnable {
                     + "\nplayer " + playerId + " hand: " + getStringHand();
         }
         writeLog(output);
-        writeDeck();
         System.out.println(output);
     }
+
+    //Used to draw from top of deck/first element of array list
     public synchronized int draw(){
+        //gets a value from top deck and puts into player hand
         card draw = drawDeck.drawFromDeck();
         hand.add(draw);
 
         return draw.getValue();
     }
 
+    //Used for player's action of discarding along with behavious of preferring values of their playerID
     public synchronized int discard(){
         // iterate to remove card
         Iterator itr = hand.iterator();
@@ -181,7 +179,13 @@ public class player implements Runnable {
             x = (card) itr.next();
             if (x.getValue() == playerId) {
                 continue;
-            } else {
+            }
+             // x is the card to be discarded
+
+            //when a card is found to not be preferred by the player dicard it from their hand and break the loop and return X
+            //value X to be given to the playerdeck 
+
+            else {
                 itr.remove();
                 break;
             }
@@ -191,40 +195,8 @@ public class player implements Runnable {
         return x.getValue();
     }
 
-    public void writeDeck(){
-        String filename = "deck" + playerId + "_output.txt";
-        File log_file = new File(filename);
-        Writer output;
-        String deckString = drawDeck.printDeck();
-        try {
-            if (log_file.exists())
-                log_file.delete();
-            log_file.createNewFile();
-            output = new BufferedWriter(new FileWriter("deck" + playerId + "_output.txt", true));
-            output.append(deckString).append("\n");
-            output.close();
-        } catch (IOException e) {
-            System.out.println("Couldn't create file: " + filename);
-        }
-    }
-
-    /**
-     * When an object implementing interface {@code Runnable} is used
-     * to create a thread, starting the thread causes the object's
-     * {@code run} method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method {@code run} is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    private synchronized void playerTurn() {
-        int x = draw();
-        int y = discard();
-        printTurn(x, y);
-    }
-
+    
+    //runs the game initially checking for any winner, ending the game before it starts if so, sleep timer for easier viewing of thread actions
     @Override
     public void run() {
         winnerCheck();
@@ -232,13 +204,19 @@ public class player implements Runnable {
             end();
         }
 
+        //checks if there is any winner and ends if something is found
         while(!win){
             if (winner != 0){
                 end();
             }
+            //prints the draw and discard of players
             else{
-                playerTurn();
+                int draw = draw();
+                int discard = discard();
 
+                printTurn(draw, discard);
+
+                //checks for winners signalling to end if not 0
                 winnerCheck();
                 if (winner != 0){
                     end();
@@ -250,6 +228,7 @@ public class player implements Runnable {
                     e.printStackTrace();
                 }
             }
+//src/inputpack.txt
         }
     }
 }
