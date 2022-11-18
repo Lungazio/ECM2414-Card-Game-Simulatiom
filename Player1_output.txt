@@ -1,35 +1,47 @@
-player 1 initial hand: 2 , 6 , 9 , 2
-player 1 draws a 8 from deck 1
-player 1 discards a 2 to deck 2
-player1 current hand is 6 , 9 , 2 , 8
-player 1 draws a 5 from deck 1
-player 1 discards a 6 to deck 2
-player1 current hand is 9 , 2 , 8 , 5
-player 1 draws a 2 from deck 1
+player 1 initial hand: 12 , 44 , 9 , 1
+player 1 draws a 99999 from deck 1
+player 1 discards a 12 to deck 2
+player1 current hand is 44 , 9 , 1 , 99999
+player 1 draws a 99 from deck 1
+player 1 discards a 44 to deck 2
+player1 current hand is 9 , 1 , 99999 , 99
+player 1 draws a 4 from deck 1
 player 1 discards a 9 to deck 2
-player1 current hand is 2 , 8 , 5 , 2
-player 1 draws a 24 from deck 1
-player 1 discards a 2 to deck 2
-player1 current hand is 8 , 5 , 2 , 24
-player 1 draws a 8 from deck 1
-player 1 discards a 8 to deck 2
-player1 current hand is 5 , 2 , 24 , 8
-player 1 draws a 3 from deck 1
-player 1 discards a 5 to deck 2
-player1 current hand is 2 , 24 , 8 , 3
+player1 current hand is 1 , 99999 , 99 , 4
 player 1 draws a 6 from deck 1
+player 1 discards a 99999 to deck 2
+player1 current hand is 1 , 99 , 4 , 6
+player 1 draws a 2 from deck 1
+player 1 discards a 99 to deck 2
+player1 current hand is 1 , 4 , 6 , 2
+player 1 draws a 3 from deck 1
+player 1 discards a 4 to deck 2
+player1 current hand is 1 , 6 , 2 , 3
+player 1 draws a 2 from deck 1
+player 1 discards a 6 to deck 2
+player1 current hand is 1 , 2 , 3 , 2
+player 1 draws a 4 from deck 1
 player 1 discards a 2 to deck 2
-player1 current hand is 24 , 8 , 3 , 6
-player 1 draws a 3 from deck 1
-player 1 discards a 24 to deck 2
-player1 current hand is 8 , 3 , 6 , 3
-player 1 draws a 3 from deck 1
-player 1 discards a 8 to deck 2
-player1 current hand is 3 , 6 , 3 , 3
-player 1 draws a 3 from deck 1
+player1 current hand is 1 , 3 , 2 , 4
+player 1 draws a 85 from deck 1
 player 1 discards a 3 to deck 2
-player1 current hand is 6 , 3 , 3 , 3
+player1 current hand is 1 , 2 , 4 , 85
+player 1 draws a 8 from deck 1
+player 1 discards a 2 to deck 2
+player1 current hand is 1 , 4 , 85 , 8
+player 1 draws a 9 from deck 1
+player 1 discards a 4 to deck 2
+player1 current hand is 1 , 85 , 8 , 9
+player 1 draws a 6 from deck 1
+player 1 discards a 85 to deck 2
+player1 current hand is 1 , 8 , 9 , 6
+player 1 draws a 2 from deck 1
+player 1 discards a 8 to deck 2
+player1 current hand is 1 , 9 , 6 , 2
+player 1 draws a 1 from deck 1
+player 1 discards a 9 to deck 2
+player1 current hand is 1 , 6 , 2 , 1
 
-player 3 has informed player 1 that player 3 has won
+player 5 has informed player 1 that player 5 has won
 player 1 exits
-player 1 hand: 6 , 3 , 3 , 3
+player 1 hand: 1 , 6 , 2 , 1

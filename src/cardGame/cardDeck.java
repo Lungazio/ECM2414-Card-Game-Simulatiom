@@ -45,7 +45,7 @@ public class cardDeck {
         return playerId;
     }
 
-    public void discard (card cardValue){
+    public synchronized void discard (card cardValue){
         deck.add(cardValue);
     }
 
@@ -56,6 +56,7 @@ public class cardDeck {
      * Removes the top most card
      * Returns value of the card
      */
+
     public synchronized card drawFromDeck (){
         card cardTemp = deck.get(0);
         cardDeck.this.deck.remove(0);
@@ -80,14 +81,14 @@ public class cardDeck {
         }
     }
 
-    public void printDeck() {
+    public String printDeck() {
         String output = "decks of player" + playerId + " : " + deck.get(0).getValue();
         if (deck.size() > 1){
             for (int i = 1; i < deck.size(); i++) {
                 output = output + " , " + deck.get(i).getValue();
             }
         }
-        System.out.println(output);
+        return (output);
     }
 
     public void addToDeck(int cardValue) {

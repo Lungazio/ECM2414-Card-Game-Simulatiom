@@ -2,12 +2,10 @@ package cardGame;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Collections;
 
 public class player implements Runnable {
-    public static ArrayList<player> playerTemp = cardPortal.players;
+    public static ArrayList<player> playerTemp = cardGame.players;
     private static int winner;
     public static String playerName;
     private boolean win = false;
@@ -42,7 +40,6 @@ public class player implements Runnable {
             System.out.println("Couldn't create file: " + filename);
             return null;
         }
-
     }
 
     public int getPlayerId (){
@@ -154,7 +151,7 @@ public class player implements Runnable {
         winner = winnerId;
     }
 
-    public void end(){
+    public synchronized void end(){
         win = true;
         String output;
         if (winner == playerId){
@@ -167,6 +164,7 @@ public class player implements Runnable {
                     + "\nplayer " + playerId + " hand: " + getStringHand();
         }
         writeLog(output);
+        writeDeck();
         System.out.println(output);
     }
     public synchronized int draw(){
@@ -195,6 +193,24 @@ public class player implements Runnable {
 
         return x.getValue();
     }
+
+    public void writeDeck(){
+        String filename = "deck" + playerId + "_output.txt";
+        File log_file = new File(filename);
+        Writer output;
+        String deckString = drawDeck.printDeck();
+        try {
+            if (log_file.exists())
+                log_file.delete();
+            log_file.createNewFile();
+            output = new BufferedWriter(new FileWriter("deck" + playerId + "_output.txt", true));
+            output.append(deckString).append("\n");
+            output.close();
+        } catch (IOException e) {
+            System.out.println("Couldn't create file: " + filename);
+        }
+    }
+
     /**
      * When an object implementing interface {@code Runnable} is used
      * to create a thread, starting the thread causes the object's
@@ -206,9 +222,10 @@ public class player implements Runnable {
      *
      * @see Thread#run()
      */
-
-    public void printTurn(){
-
+    private synchronized void playerTurn() {
+        int x = draw();
+        int y = discard();
+        printTurn(x, y);
     }
 
     @Override
@@ -223,10 +240,7 @@ public class player implements Runnable {
                 end();
             }
             else{
-                int draw = draw();
-                int discard = discard();
-
-                printTurn(draw, discard);
+                playerTurn();
 
                 winnerCheck();
                 if (winner != 0){
@@ -239,7 +253,6 @@ public class player implements Runnable {
                     e.printStackTrace();
                 }
             }
-//src/inputpack.txt
         }
     }
 }

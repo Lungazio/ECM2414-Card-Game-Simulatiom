@@ -1,14 +1,9 @@
 package cardGame;
 
-import java.awt.*;
 import java.io.*;
-import java.net.URL;
-import java.nio.file.Path;
-import java.sql.Array;
 import java.util.*;
-import java.util.List;
 
-public class cardPortal extends Thread implements Runnable {
+public class cardGame extends Thread implements Runnable {
     public static ArrayList<player> players = new ArrayList<>();
     public static ArrayList<cardDeck> decks = new ArrayList<>();
     private ArrayList<card> inputPack = new ArrayList<>();
@@ -215,7 +210,7 @@ public class cardPortal extends Thread implements Runnable {
     }
 
     public static void main (String[] args) throws Exception {
-        cardPortal cardTestRun = new cardPortal();
+        cardGame cardTestRun = new cardGame();
 
         // initalize game
         cardTestRun.getPlayersInputPack();
