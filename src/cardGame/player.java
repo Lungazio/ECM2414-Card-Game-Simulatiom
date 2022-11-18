@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.Collections;
 
 public class player implements Runnable {
-    public static ArrayList<player> playerTemp = cardGame.players;
     private static int winner;
     public static String playerName;
     private boolean win = false;
