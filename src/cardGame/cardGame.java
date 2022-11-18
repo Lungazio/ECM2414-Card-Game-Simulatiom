@@ -3,231 +3,283 @@ package cardGame;
 import java.io.*;
 import java.util.*;
 
+/**
+ * cardGame class
+ * Retrieves and validates all necessary input,
+ * initializes all players and distributes cards,
+ * performs preliminary checks before starting the game.
+ *
+ *
+ * @author Daphne Yap & Julian Lung
+ * @version 5.0
+ *
+ */
 public class cardGame extends Thread implements Runnable {
+    // ArrayList to hold current players
     public static ArrayList<player> players = new ArrayList<>();
     public static ArrayList<cardDeck> decks = new ArrayList<>();
     private ArrayList<card> inputPack = new ArrayList<>();
     int numOfPlayers = 0;
 
-    public void getPlayersInputPack() throws Exception {
 
-        System.out.print("Enter number of players: ");
-        Scanner scanner = new Scanner(System.in);
+    /**
+     * Retrieves number of players
+     * and input pack location from user
+     *
+     * Initializes players and decks
+     */
+    public void getPlayersInputPack() throws IllegalArgumentException, IOException {
+        // throw exception if number of players are less than 2
+        boolean valid = false;
+        while (!valid){
+            System.out.print("Enter number of players: ");
+            Scanner scanner = new Scanner(System.in);
+            Integer numPlayers = scanner.nextInt();
 
-        Integer numPlayers = scanner.nextInt();
-        if (numPlayers < 2) throw new IllegalArgumentException("There should be at least 2 Players.");
-        else {
-            numOfPlayers = numPlayers;
-            //create player and decks
+            if (numPlayers < 2) throw new IllegalArgumentException("There should be at least 2 Players.");
+            else {
+                valid = true;
+                numOfPlayers = numPlayers;
 
-            for (int i = 0; i < numOfPlayers; i++){
-                cardDeck deckTemp = new cardDeck(i +1);
-                decks.add(deckTemp);
-            }
-
-            int discardDeckId;
-            for (int i = 0; i < numOfPlayers; i++) {
-                String playerName = "player";
-                playerName += String.valueOf(i +1);
-
-                // create player object
-                //i = 0 , i = 1;
-                // decks 1, 2
-                //
-
-
-                if (i == numOfPlayers-1){
-                    discardDeckId = 0;
-                }
-                else{
-                   discardDeckId = i+1;
+                //create decks and players
+                for (int i = 0; i < numOfPlayers; i++){
+                    cardDeck deckTemp = new cardDeck(i +1);
+                    decks.add(deckTemp);
                 }
 
-                player temp = new player(i + 1, playerName, decks.get(i), decks.get(discardDeckId));
-                players.add(temp);
+                int discardDeckId;
 
-//                // create thread for player, set name to playerid
-//                playerThreads.add(new Thread(temp));
-//                playerThreads.get(i).setName(playerName);
-//                //playerThreads.get(i).wait();
+                // create players, and set the discard deck ids accordingly
+                // discard deck to the right, discard deck id = current + 1
+                for (int i = 0; i < numOfPlayers; i++) {
+                    if (i == numOfPlayers-1){
+                        discardDeckId = 0;
+                    }
+                    else{
+                        discardDeckId = i+1;
+                    }
 
+                    // create new player object and store in ArrayList
+                    player temp = new player(i + 1, decks.get(i), decks.get(discardDeckId));
+                    players.add(temp);
+                }
             }
-            inputPack = getInputPack(numOfPlayers);
         }
+        // call get input pack function
+        getInputPack();
     }
 
-
-//    public void testDiscards() {
-//        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-//        ArrayList<card> temp2 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-//        ArrayList<card> temp3 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-//        ArrayList<card> temp4 = new ArrayList<>(Arrays.asList(new card(1),new card(6),new card(8),new card(3)));
-////        players.get(0).setHand(temp);
-////        players.get(1).setHand(temp2);
-//        decks.get(0).setDeck(temp3);
-//        decks.get(1).setDeck(temp4);
-//
-//
-//        int playerId = 0;
-//        for (int i = 0; i < 4; i++) {
-//            if (playerId == numOfPlayers) {
-//                playerId = 0;
-//            }
-//
-//            System.out.println("PlayerID(" + playerId + ") initial hand: " + players.get(playerId).getHand());
-//            System.out.println("PlayerID(" + playerId + ") deck: " + decks.get(playerId).getCardDeck());
-//            card draw = decks.get(playerId).drawFromDeck();
-//            card discard = players.get(playerId).drawAndDiscard(draw);
-//            System.out.println("PlayerID(" + playerId + ") drawed a " + draw + " from deck " + playerId);
-//
-//            int discardDeckId = 0;
-//            if (playerId == numOfPlayers - 1) {
-//                discardDeckId = 0;
-//            } else {
-//                discardDeckId = playerId + 1;
-//            }
-//            decks.get(playerId).discardToDeck(discard);
-//            System.out.println("PlayerID(" + playerId + ") discards a " + discard + " to deck " + discardDeckId);
-//            System.out.println("PlayerID(" + playerId + ") current hand: " + players.get(playerId).getHand() + "\n");
-//
-//            //decks.get(0).generateDeckOutput(0);
-//
-//            playerId++;
-//        }
-//
-//    }
-
-    public ArrayList<card> getInputPack(int players) throws IOException {
+    /**
+     * Gets input pack location from user input
+     * Verifies if input pack is valid before
+     * reading and storing.
+     *
+     * Input pack should be size of
+     * 8 * number of players
+     *
+     * @return An ArrayList of cards
+     *
+     * Used in every playerTurn
+     */
+    public ArrayList<card> getInputPack() throws IOException {
         Scanner scanner = new Scanner(System.in);
-
         boolean valid = false;
+
+        // continue looping if file not found or is invalid
         while (valid == false) {
             System.out.print("Enter input pack location: ");
 
+            // read file location string
             String file = scanner.nextLine();
             String absolutePath = (new File(file)).getAbsolutePath();
             System.out.println(absolutePath);
 
+            // read file
             try (BufferedReader reader = new BufferedReader(new FileReader(absolutePath))) {
                 System.out.println("Reading file...");
                 String line;
 
+                // try parsing each int line and store in inputpack
                 while ((line = reader.readLine()) != null) {
                     inputPack.add(new card(Integer.parseInt(line)));
-
                 }
-            } catch (Exception e) {
-                System.out.println(e);
+            }
+            // print stack trace if exceptions found
+            catch (Exception e) {
+                e.printStackTrace();
             }
 
-            if (inputPack.size() == 8 * players) {
+            // check size of input pack
+            if (inputPack.size() == 8 * numOfPlayers) {
                 // set valid = True to break loop
                 valid = true;
-            } else {
+            }
+
+            // size does not match 8 * number of players, clear input pack
+            // rerun while loop
+            else {
                 System.out.println("Invalid: File must contain " +
-                        (8 * players) + " lines, " + inputPack.size() + " found instead! ");
+                        (8 * numOfPlayers) + " lines, " + inputPack.size() + " found instead! ");
                 inputPack.clear();
             }
         }
         return inputPack;
     }
 
-    // distributes cards to n players
-    // used to distribute last half of the input pack into respective player decks
+    /**
+     * Distributes last half of the input pack
+     * into respective player decks in a
+     * round-robin fashion
+     *
+     * @return ArrayList containing all decks
+     *
+     *
+     * Used after distributing to players
+     *          before the start of the game
+     */
     public ArrayList<cardDeck> distributeDecks() {
         int counter = 0;
-        for (int i = 4 * numOfPlayers; i < 8 * numOfPlayers; i++) {
-            int cardValue = inputPack.get(i).getValue();
 
+        // loop through second half of input pack
+        for (int i = 4 * numOfPlayers; i < 8 * numOfPlayers; i++) {
+            card currentCard = inputPack.get(i);
+
+            // counter to loop through each player
             if (counter == numOfPlayers) {
                 counter = 0;
             }
-            decks.get(counter).addToDeck(cardValue);
+
+            // add current card to deck
+            decks.get(counter).addToDeck(currentCard);
 
             counter++;
         }
         return decks;
     }
 
+    /**
+     * Distributes first half of the input pack
+     * into respective players in a
+     * round-robin fashion
+     *
+     * @return ArrayList containing all players
+     *
+     * Used before distributing to decks
+     *          before the start of the game
+     */
     public ArrayList<player> distributePlayers() {
-
         int counter = 0;
-        for (int i = 0; i < 4 * numOfPlayers; i++) {
-            card tempCard = inputPack.get(i);
 
+        // loop through first half of inputpack
+        for (int i = 0; i < 4 * numOfPlayers; i++) {
+            card currentCard = inputPack.get(i);
+
+            // counter to loop through each player
             if (counter == numOfPlayers) {
                 counter = 0;
             }
 
-            players.get(counter).addToHand(tempCard);
+            // add current card to players hand
+            players.get(counter).addToHand(currentCard);
 
             counter++;
         }
         return players;
     }
 
+    /**
+     * Outputs all players' hands in a readable string
+     * and writes initial hands to player logs
+     *
+     * Used before the start of the game
+     */
     public void printInitialHand(){
+        // loop through all players
         for (player p : players){
+            // format string
             String output = "player " + p.getPlayerId() + " initial hand: " + p.getStringHand();
-            p.writeLog(output);
 
+            // write to log
+            p.writeLog(output);
             System.out.println(output);
         }
     }
 
+    /**
+     * Start all player threads
+     *
+     * Starts the game, players will
+     * start drawing and discard
+     */
     public void startPlayers() {
+        // loop through all in player ArrayList
         for (player p: players){
-            Thread tempThread = new Thread(p);
-            tempThread.start();
+            // create player as a runnable thread and start
+            Thread playerThread = new Thread(p);
+            playerThread.start();
         }
     }
 
-    public void setPlayers(){
-        ArrayList<card> temp = new ArrayList<>(Arrays.asList(new card(1),new card(1),new card(1),new card(1)));
-        players.get(3).setHand(temp);
-    }
-
-    public boolean winnerCheck() {
-
+    /**
+     * Checks all players' hands
+     *
+     * Regardless of player's preferred card denomination,
+     * if a player has 4 of the same cards, they win
+     *
+     * @return true if a player has a winning hand
+     */
+    public boolean winnerCheck() throws IOException {
+        // loop through all players
         for (player p : players){
-            ArrayList<Integer> tempHand = new ArrayList<>();
+
+            // convert player hand into an int ArrayList for easy checks
+            ArrayList<Integer> currentHand = new ArrayList<>();
             for (card x : p.getHand()){
-                tempHand.add(x.getValue());
+                currentHand.add(x.getValue());
             }
-            int x;
-            x = p.getHand().get(0).getValue();
-            int occurrence = Collections.frequency(tempHand, x);
+
+            // get first card of the hand
+            int cardValue;
+            cardValue = currentHand.get(0);
+
+            // check number of times cardValue is in currentHand
+            int occurrence = Collections.frequency(currentHand, cardValue);
+
+            // a winning hand
             if (occurrence == 4) {
+                // set winner to current player ID
                 p.setWinner(p.getPlayerId());
+                p.end();
+
+                // end the game for all players
                 for (player p1 : players) {
-                    p1.end();
+                    if (p1.getPlayerId() != p.getPlayerId()) {
+                        p1.end();
+                    }
                 }
                 return true;
-                //
             }
         }
         return false;
     }
 
+
     public static void main (String[] args) throws Exception {
-        cardGame cardTestRun = new cardGame();
+        cardGame cardRun = new cardGame();
 
-        // initalize game
-        cardTestRun.getPlayersInputPack();
-        ArrayList<player> players = cardTestRun.distributePlayers();
-        ArrayList<cardDeck> deck = cardTestRun.distributeDecks();
+        // initialize game
+        cardRun.getPlayersInputPack();
 
-        cardTestRun.printInitialHand();
-        if (!cardTestRun.winnerCheck()) {
-            cardTestRun.startPlayers();
+        // distribute card to players and deck
+        ArrayList<player> players = cardRun.distributePlayers();
+        ArrayList<cardDeck> deck = cardRun.distributeDecks();
+
+        // print initial hand and check for winners
+        cardRun.printInitialHand();
+        // no winners : start game
+        if (!cardRun.winnerCheck()) {
+            cardRun.startPlayers();
         }
-//
-//        while (!ended){
-//            cardTestRun.winnerCheck();
-//        }
-
-//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-//        System.out.println(threadSet);
     }
 }
 

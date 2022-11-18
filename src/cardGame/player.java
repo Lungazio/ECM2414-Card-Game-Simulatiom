@@ -6,7 +6,6 @@ import java.util.Collections;
 
 public class player implements Runnable {
     private static int winner;
-    public static String playerName;
     private boolean win = false;
     //player, plays as thread [WIP need to work on player behaviour]
     private final int playerId;
@@ -16,9 +15,8 @@ public class player implements Runnable {
     private cardDeck drawDeck;
     private cardDeck discardDeck;
 
-    public player(int playerId, String playerName, cardDeck drawDeck, cardDeck discardDeck) {
+    public player(int playerId, cardDeck drawDeck, cardDeck discardDeck) {
         this.playerId = playerId;
-        this.playerName = playerName;
         this.hand = new ArrayList<>(4);
         this.drawDeck = drawDeck;
         this.discardDeck = discardDeck;
