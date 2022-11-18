@@ -24,7 +24,7 @@ public class player implements Runnable {
         create_log_file();
     }
 
-    // Make logs and deletes old data from previous games if it exists
+    // Make logs and deletes old logs from previous games if it exists
     private String create_log_file() {
         String filename = "Player" + playerId + "_output.txt";
         File log_file = new File(filename);
@@ -90,18 +90,18 @@ public class player implements Runnable {
             winnerHand.add(x.getValue());
         }
 
-        int x = playerId;
+        int Id = playerId;
         // check occurences of a certain card value of a winner hand when 4 of a kind are found returns True 
-        int occurrence = Collections.frequency(winnerHand, x);
+        int occurrence = Collections.frequency(winnerHand, Id);
         if (occurrence == 4) {
-            winner = x;
+            winner = Id;
             return true;
         }
         return false;
     }
 
 
-    //Prints player's actions 
+    //Prints player's actions in a turn
     public void printTurn(int draw, int discard) {
         String output = "player " + playerId + " draws a " + draw + " from deck " + playerId
                 + "\nplayer " + playerId + " discards a " + discard + " to deck " + discardDeck.getDeckId()
@@ -110,33 +110,7 @@ public class player implements Runnable {
         writeLog(output);
         System.out.println(output);
     }
-
-    //Used for player's action of drawing and discarding along with behavious of preferring values of their playerID
-    public synchronized card drawAndDiscard(card drawValue) {
-        // add drawValue to current hand
-        hand.add(drawValue);
-
-        // iterate through player hands to remove a card
-        Iterator itr = hand.iterator();
-        card x = null;
-        while (itr.hasNext()) {
-            // Remove first element in array that isn't the players preferred number
-            // Iterator.remove()
-            x = (card) itr.next();
-            //when a card value is their playerID move on the next element int the array
-            if (x.getValue() == playerId) {
-                continue;
-            } 
-
-           
-            else {
-                itr.remove();
-                
-                break;
-            }
-        }
-        return x;
-    }
+ 
 
     public void setWinner(int winnerId){
         winner = winnerId;
@@ -172,12 +146,12 @@ public class player implements Runnable {
     public synchronized int discard(){
         // iterate to remove card
         Iterator itr = hand.iterator();
-        card x = null;
+        card removedCard = null;
         while (itr.hasNext()) {
             // Remove first element in array that isn't the players preferred number
             // Iterator.remove()
-            x = (card) itr.next();
-            if (x.getValue() == playerId) {
+            removedCard = (card) itr.next();
+            if (removedCard.getValue() == playerId) {
                 continue;
             }
              // x is the card to be discarded
@@ -190,9 +164,9 @@ public class player implements Runnable {
                 break;
             }
         }
-        discardDeck.discard(x);
+        discardDeck.discard(removedCard);
 
-        return x.getValue();
+        return removedCard.getValue();
     }
 
     
