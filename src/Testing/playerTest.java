@@ -1,9 +1,12 @@
  import static org.junit.Assert.*;
+import cardGame.player;
+import cardGame.cardDeck;
 
  public class playerTest {
 
      @org.junit.Test
-     public void getPlayerId() {
+     public void getPlayer() {
+         
      }
 
      @org.junit.Test

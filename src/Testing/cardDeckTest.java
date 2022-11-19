@@ -11,25 +11,17 @@
      @org.junit.Test
      public void getDeckIdTest() {
          cardDeck deck = new cardDeck(1);
-         assertArrayEquals(1, cardDeck.getDeckId(1));
-
-
+         assertEquals(1, deck.getDeckId());
      }
-     public static void getDeckID{
-         
-     }
-
      @org.junit.Test
      public void discardTest() {
+         cardDeck deck=
      }
 
      @org.junit.Test
      public void drawFromDeckTest() {
      }
 
-     @org.junit.Test
-     public void printDeckTest() {
-     }
 
      @org.junit.Test
      public void addToDeckTest() {
