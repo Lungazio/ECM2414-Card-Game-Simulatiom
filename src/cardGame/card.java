@@ -14,7 +14,7 @@ public class card {
 
 
 
-    card (int cardValue){
+    public card (int cardValue){
         this.value = cardValue;
     }
 
