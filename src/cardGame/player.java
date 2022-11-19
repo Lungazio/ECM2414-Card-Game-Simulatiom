@@ -9,15 +9,13 @@ public class player implements Runnable {
     private boolean win = false; //used to check whether the game ends 
     private final int playerId; //Assign to players for distribution of cards, hands and winner check
     private ArrayList<card> hand; //Array to hold card values of players
-
-
     private cardDeck drawDeck;
     private cardDeck discardDeck;
 
     //log file for n players and places into output file respective to playerID
     public player(int playerId, cardDeck drawDeck, cardDeck discardDeck) {
         this.playerId = playerId;
-        this.hand = new ArrayList<>(4);
+        this.hand = new ArrayList<>(4); 
         this.drawDeck = drawDeck;
         this.discardDeck = discardDeck;
 
@@ -92,7 +90,7 @@ public class player implements Runnable {
 
         int Id = playerId;
         // check occurences of a certain card value of a winner hand when 4 of a kind are found returns True 
-        int occurrence = Collections.frequency(winnerHand, Id);
+        int occurrence = Collections.frequency(winnerHand, Id); //used to find frequency of a value 
         if (occurrence == 4) {
             winner = Id;
             return true;
