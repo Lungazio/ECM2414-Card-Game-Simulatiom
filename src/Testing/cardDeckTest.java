@@ -17,9 +17,8 @@
      @org.junit.Test
      public void discardTest() {
          cardDeck discardDeck = new cardDeck(1);
-         card testCard;
+         card testCard = new card(1);
          boolean pass = true;
-         testCard = new card(1);
          try {
              discardDeck.discard(testCard);
          }catch (Exception ex){
@@ -30,10 +29,31 @@
 
      @org.junit.Test
      public void drawFromDeckTest() {
+         cardDeck deck = new cardDeck(1);
+         card testCard = new card(1);
+         deck.addToDeck(testCard);
+         boolean pass = true;
+         try{
+             deck.drawFromDeck();
+         }
+         catch (Exception ex){
+             pass = false;
+         }
+         assertTrue(pass);
      }
 
 
      @org.junit.Test
      public void addToDeckTest() {
+         cardDeck deck = new cardDeck(1);
+         card testCard = new card(1);
+         boolean pass = true;
+         try{
+             deck.addToDeck(testCard);
+         }
+         catch (Exception ex){
+             pass = false;
+         }
+         assertTrue(pass);
      }
  }
