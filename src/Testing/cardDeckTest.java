@@ -16,16 +16,12 @@
      }
      @org.junit.Test
      public void discardTest() {
-         cardDeck drawDeck = new cardDeck(1);
-         cardDeck discardDeck = new cardDeck(2);
-         player hand = new player(1,drawDeck,discardDeck);
+         cardDeck discardDeck = new cardDeck(1);
          card testCard;
          boolean pass = true;
          testCard = new card(1);
-         drawDeck.addToDeck(testCard);
-
          try {
-             hand.discard();
+             discardDeck.discard(testCard);
          }catch (Exception ex){
              pass = false;
          }
