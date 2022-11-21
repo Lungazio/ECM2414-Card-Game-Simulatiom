@@ -14,6 +14,7 @@
          cardDeck deck = new cardDeck(1);
          assertEquals(1, deck.getDeckId());
      }
+
      @org.junit.Test
      public void discardTest() {
          cardDeck discardDeck = new cardDeck(1);
@@ -55,5 +56,10 @@
              pass = false;
          }
          assertTrue(pass);
+     }
+
+     @org.junit.Test
+     public void run(){
+
      }
  }

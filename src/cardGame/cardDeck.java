@@ -89,10 +89,14 @@ public class cardDeck {
     /**
      * Adds a card to the deck
      *
-     * @param cardValue integer value from input pack
+     * @param card integer value from input pack
      * Used when distributing cards to decks
      */
     public void addToDeck(card card) {
         deck.add(card);
+    }
+
+    public ArrayList<card> getDeck(){
+        return deck;
     }
 }

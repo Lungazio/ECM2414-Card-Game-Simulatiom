@@ -48,13 +48,12 @@ public class player implements Runnable {
         return hand;
     }
 
-
     public void addToHand(card value) {
         hand.add(value);
     }
 
 
-    //track moves and hands of players
+    // track moves and hands of players
     public void writeLog(String text) {
         Writer output = null;
         try {
@@ -169,6 +168,9 @@ public class player implements Runnable {
         return removedCard.getValue();
     }
 
+    public void setHand (ArrayList<card> set){
+        hand = set;
+    }
     
     //runs the game initially checking for any winner, ending the game before it starts if so, sleep timer for easier viewing of thread actions
     @Override
