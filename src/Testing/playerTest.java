@@ -83,6 +83,22 @@ import java.io.PrintStream;
 
      @org.junit.Test
      public void writeLogTest() throws IOException {
+//         cardDeck sampleDeck1 = new cardDeck(1);
+//         cardDeck sampleDeck2 = new cardDeck(2);
+//         player testPlayer = new player(0, sampleDeck1, sampleDeck2);
+//         String sampleText = "sample text";
+//         testPlayer.create_log_file();
+//         testPlayer.writeLog(sampleText);
+//         boolean pass = true;
+//         try {
+//
+//             String findText = Files.readString(testFile);
+//             assertEquals(sampleText, findText);;
+//            }
+//         catch (AssertionError x){
+//             pass = false;
+//         }
+//         assertTrue(pass);
      }
 
 
