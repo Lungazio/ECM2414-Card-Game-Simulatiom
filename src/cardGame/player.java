@@ -43,13 +43,11 @@ public class player implements Runnable {
     public int getPlayerId (){
         return playerId;
     }
-    ArrayList<card> getHand() {
+
+    public ArrayList<card> getHand() {
         return hand;
     }
 
-    public void setHand(ArrayList<card> setHand) {
-        hand = setHand;
-    }
 
     public void addToHand(card value) {
         hand.add(value);
@@ -112,6 +110,10 @@ public class player implements Runnable {
 
     public void setWinner(int winnerId){
         winner = winnerId;
+    }
+
+    public int getWinnerID(){
+        return winner;
     }
 
     //Ends the threads when winner is found, Print out decks of winner and losers as well as player dialogue
