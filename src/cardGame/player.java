@@ -23,7 +23,7 @@ public class player implements Runnable {
     }
 
     // Make logs and deletes old logs from previous games if it exists
-    private String create_log_file() {
+    public String create_log_file() {
         String filename = "Player" + playerId + "_output.txt";
         File log_file = new File(filename);
         try {

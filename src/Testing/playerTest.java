@@ -3,12 +3,17 @@ import cardGame.player;
 import cardGame.cardDeck;
 import cardGame.card;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-
+import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
+
+
 
  public class playerTest {
      private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -62,8 +67,22 @@ import java.util.ArrayList;
          assertTrue(pass);
      }
 
+     public void testFolder(){
+         cardDeck sampleDeck1 = new cardDeck(1);
+         cardDeck sampleDeck2 = new cardDeck(2);
+         player testPlayer = new player(0, sampleDeck1, sampleDeck2);
+         testPlayer.create_log_file();
+         testFolder();
+     }
+
+
      @org.junit.Test
-     public void writeLog() {
+     public void createLogTest(){
+
+     }
+
+     @org.junit.Test
+     public void writeLogTest() throws IOException {
      }
 
 
@@ -186,6 +205,25 @@ import java.util.ArrayList;
 
      @org.junit.Test
      public void discard() {
+         cardDeck sampleDeck1 = new cardDeck(1);
+         cardDeck sampleDeck2 = new cardDeck(2);
+         player testPlayer = new player(1, sampleDeck1, sampleDeck2);
+         card testCard = new card(1);
+         card testCard2 = new card (2);
+         boolean pass = true;
+
+         try {
+             for (int i = 0; i < 3; i++) {
+                 testPlayer.addToHand(testCard);
+             }
+             testPlayer.addToHand(testCard2);
+             int discardTestValue = testPlayer.discard();
+             assertEquals(2, discardTestValue);
+         }
+         catch(AssertionError e){
+             pass = false;
+         }
+         assertTrue(pass);
      }
 
      @org.junit.Test
