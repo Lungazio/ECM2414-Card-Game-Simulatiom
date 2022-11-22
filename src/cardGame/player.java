@@ -34,7 +34,7 @@ public class player implements Runnable {
             
             //throw an exception if failed to make log
         } catch (IOException e) {
-            System.out.println("Couldn't create file: " + filename);
+            System.out.println("Couldn't create player output file: " + filename);
             return null;
         }
 
@@ -67,7 +67,7 @@ public class player implements Runnable {
     
 
     //used for printing of player hands by turning values to string
-    public String getStringHand() {
+    public String printHand() {
         String output = String.valueOf(hand.get(0).getValue());
         if (hand.size() > 1){
             for (int i = 1; i < hand.size(); i++) {
@@ -100,7 +100,7 @@ public class player implements Runnable {
     public void printTurn(int draw, int discard) {
         String output = "player " + playerId + " draws a " + draw + " from deck " + playerId
                 + "\nplayer " + playerId + " discards a " + discard + " to deck " + discardDeck.getDeckId()
-                + "\nplayer" + playerId + " current hand is " + getStringHand();
+                + "\nplayer" + playerId + " current hand is " + printHand();
 
         writeLog(output);
         System.out.println(output);
@@ -122,13 +122,18 @@ public class player implements Runnable {
         if (winner == playerId){
             output = "\nplayer " + playerId + " wins"
                     + "\nplayer " + playerId + " exits"
-                    + "\nplayer " + playerId + " final hand: " + getStringHand();
+                    + "\nplayer " + playerId + " final hand: " + printHand();
         }else {
             output = "\nplayer " + winner + " has informed player " + playerId + " that player " + winner + " has won"
                     + "\nplayer " + playerId + " exits"
-                    + "\nplayer " + playerId + " hand: " + getStringHand();
+                    + "\nplayer " + playerId + " hand: " + printHand();
         }
         writeLog(output);
+        // for test cases
+        if (!drawDeck.deck.isEmpty()) {
+            drawDeck.create_deck_log();
+            drawDeck.write_deck_log(drawDeck.printDeck());
+        }
         System.out.println(output);
     }
 

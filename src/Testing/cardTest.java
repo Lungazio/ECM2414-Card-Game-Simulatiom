@@ -1,7 +1,7 @@
+package Testing;
+
 import static org.junit.Assert.*;
 import cardGame.card;
-
-
 
 public class cardTest {
 

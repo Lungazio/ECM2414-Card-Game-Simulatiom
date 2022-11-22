@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cards.jar">
+    <output-path>$PROJECT_DIR$/</output-path>
+    <root id="archive" name="ECM2414.jar">
+      <element id="module-output" name="ECM2414" />
+      <element id="module-source" name="ECM2414" />
+    </root>
+  </artifact>
+</component>

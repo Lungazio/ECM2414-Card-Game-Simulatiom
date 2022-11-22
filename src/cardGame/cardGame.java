@@ -183,7 +183,7 @@ public class cardGame extends Thread implements Runnable {
     public static void printInitialHand() {
         // print every players' hand and write to log
         for (player p : players) {
-            String output = "player " + p.getPlayerId() + " initial hand: " + p.getStringHand();
+            String output = "player " + p.getPlayerId() + " initial hand: " + p.printHand();
             p.writeLog(output);
 
             System.out.println(output);

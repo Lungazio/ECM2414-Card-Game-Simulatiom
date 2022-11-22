@@ -1,1 +1,4 @@
-Line 1 player 2
+
+player 1 has informed player 2 that player 1 has won
+player 2 exits
+player 2 hand: 2 , 6 , 1 , 6

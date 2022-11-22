@@ -2,7 +2,6 @@ package cardGame;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * cardDeck class:
@@ -75,7 +74,7 @@ public class cardDeck {
      * Used to print deck output file
      */
     public String printDeck() {
-        String output = "decks of player" + playerId + " : " + deck.get(0).getValue();
+        String output = "player" + playerId + " deck: " + deck.get(0).getValue();
 
         // loop to concatenate and format contents
         if (deck.size() > 1){
@@ -98,5 +97,37 @@ public class cardDeck {
 
     public ArrayList<card> getDeck(){
         return deck;
+    }
+
+    public String create_deck_log (){
+        String filename = "Deck" + playerId + "_output.txt";
+        File log_file = new File(filename);
+
+        try {
+            if (log_file.exists())
+                log_file.delete();
+            log_file.createNewFile();
+            return filename;
+
+            //throw an exception if failed to make log
+        } catch (IOException e) {
+            System.out.println("Couldn't create deck output file: " + filename);
+            return null;
+        }
+    }
+
+    public void write_deck_log (String text){
+        Writer output = null;
+        try {
+            output = new BufferedWriter(new FileWriter("Deck" + playerId + "_output.txt", true));
+            output.append(text).append("\n");
+            output.close();
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
+    }
+
+    public void setDeck (ArrayList<card> deckCards){
+        deck = deckCards;
     }
 }

@@ -1,3 +1,5 @@
+package Testing;
+
 import cardGame.*;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;

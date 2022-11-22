@@ -1,18 +1,14 @@
+package Testing;
 import static org.junit.Assert.*;
-
 import cardGame.player;
 import cardGame.cardDeck;
 import cardGame.card;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 
 import java.io.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +50,6 @@ public class playerTest {
         assertNotNull(testPlayer.getHand().get(0));
     }
 
-
     @org.junit.Test
     public void addToHand() {
         cardDeck testDeck = new cardDeck(1);
@@ -68,15 +63,6 @@ public class playerTest {
         }
         assertTrue(pass);
     }
-
-    public void testFolder() {
-        cardDeck sampleDeck1 = new cardDeck(1);
-        cardDeck sampleDeck2 = new cardDeck(2);
-        player testPlayer = new player(1, sampleDeck1, sampleDeck2);
-        testPlayer.create_log_file();
-        testFolder();
-    }
-
 
     @org.junit.Test
     public void createLogTest() {
@@ -150,7 +136,7 @@ public class playerTest {
         card testCard = new card(1);
         player testPlayer = new player(1, testDeck, testDeck);
         testPlayer.addToHand(testCard);
-        assertContains("1", testPlayer.getStringHand());
+        assertContains("1", testPlayer.printHand());
     }
 
     @org.junit.Test
@@ -182,28 +168,6 @@ public class playerTest {
         }
         assertTrue(pass);
     }
-
-//     @org.junit.Test
-//     public void writeLogTest() throws IOException {
-//         cardDeck sampleDeck1 = new cardDeck(1);
-//         cardDeck sampleDeck2 = new cardDeck(2);
-//         player testPlayer = new player(0, sampleDeck1, sampleDeck2);
-//         String sampleText = "sample text";
-//         testPlayer.create_log_file();
-//         testPlayer.writeLog(sampleText);
-//         boolean pass = true;
-//         try {
-//
-//             String findText = Files.readString(testFile);
-//             assertEquals(sampleText, findText);;
-//            }
-//         catch (AssertionError x){
-//             pass = false;
-//         }
-//         assertTrue(pass);
-//     }
-
-
 
     @org.junit.Test
     public void setWinnerTest() {
@@ -315,5 +279,6 @@ public class playerTest {
         assert (testPlayer.getHand().get(2).getValue() == 3);
         assert (testPlayer.getHand().get(3).getValue() == 4);
     }
+
 
 }
