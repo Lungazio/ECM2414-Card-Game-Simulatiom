@@ -10,11 +10,9 @@ At the end of the game, the program generates output files for each player, cont
 
 
 ## Running the JAR
-First, we have to make sure Java is installed. 
-Run `java -version` to display installed java version. If 
-``` cmd
-java -version
-```
+First, we have to make sure Java is installed. Run `java -version` to display installed java version. If Java is not installed, it can be done from [this link here](https://www.java.com/en/download/help/download_options.html)
+
+---
 1. Open command prompt and navigate to the directory where cards.jar is stored.
 2. Run the jar file with the following command.
 
@@ -25,7 +23,7 @@ java -jar cards.jar
 
 3. Enter number of players.
 4. Enter the file location of your input pack. e.g. src/inputpack.txt
-
+The game should start running after taking valid inputs for both number of players and input pack location.
 
 ## Running Tests
 Also in command prompt, make sure that the current working directory is in ECM2414. For example, typing `cd` in Command Prompt will give: 
