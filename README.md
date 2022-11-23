@@ -32,7 +32,7 @@ C:\Users\user1\Downloads\ECM2414, containing the bin, lib and src folders.
 Then to run the test suite, run the following command.
 
 ``` cmd 
-java -cp ".\bin\Testing;.\lib\junit-4.13.1.jar;.\lib\hamcrest-core-1.3.jar" Testing.TestRunner
+java -cp ".\bin;.\lib\junit-4.13.1.jar;.\lib\hamcrest-core-1.3.jar" Testing.TestRunner
 ```
 
 ## Authors
